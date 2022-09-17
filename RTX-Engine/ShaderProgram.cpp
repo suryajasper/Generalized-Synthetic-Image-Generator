@@ -24,21 +24,29 @@ GLuint ShaderProgram::Initialize(std::string vertFile, std::string fragFile)
     AttachShader(frag);
 
     LinkProgram();
+
+    return programId;
 }
 
 GLuint ShaderProgram::CreateShader(int shaderType, std::string path)
 {
-	char** shaderSource = ReadShaderDataFromFile(path);
+    char* shaderSource;
+    ReadShaderDataFromFile(path, &shaderSource);
 
 	GLuint shader = glCreateShader(shaderType);
-	glShaderSource(shader, 1, shaderSource, NULL);
+	glShaderSource(shader, 1, &shaderSource, NULL);
     glCompileShader(shader);
+
+    int status;
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
+    std::cout << "--COMPILE shader: " << ((status == GL_TRUE) ? "success" : "fail") << std::endl;
 
     return shader;
 }
 
 void ShaderProgram::AttachShader(GLuint shaderId) 
 {
+    std::cout << "--ATTACH shader " << shaderId << " to program " << this->programId << std::endl;
     glAttachShader(this->programId, shaderId);
     shaders.push_back(shaderId);
 }
@@ -59,12 +67,10 @@ void ShaderProgram::LinkProgram()
     glLinkProgram(programId);
 }
 
-char** ShaderProgram::ReadShaderDataFromFile(std::string path)
+void ShaderProgram::ReadShaderDataFromFile(std::string path, char** shaderData)
 {
-    char** shaderData;
-
     std::ifstream fin(path);
-    if (!fin) return nullptr;
+    if (!fin) return;
 
     fin.seekg(0, std::ios::end);
     int len = fin.tellg();
@@ -75,6 +81,4 @@ char** ShaderProgram::ReadShaderDataFromFile(std::string path)
         (*shaderData)[i] = '\0';
     fin.read(*shaderData, len);
     fin.close();
-
-    return shaderData;
 }

@@ -1,10 +1,10 @@
 #pragma once
-#include <GLFW/glfw3.h>
 #include <string>
 #include <fstream>
 #include <iostream>
 #include <vector>
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 class ShaderProgram
 {
@@ -25,6 +25,6 @@ public:
 private:
 	GLuint programId;
 	std::vector<GLuint> shaders;
-	static char** ReadShaderDataFromFile(std::string path);
+	static void ReadShaderDataFromFile(std::string path, char** shaderData);
 };
 
