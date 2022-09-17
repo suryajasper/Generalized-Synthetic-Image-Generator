@@ -9,7 +9,7 @@ int main(void)
         return -1;
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(800, 800, "Hello World", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -18,6 +18,12 @@ int main(void)
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
+    glViewport(0, 0, 800, 800);
+
+    /* Add background color */
+    glClearColor(0.0f, 0.8f, 0.8f, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glfwSwapBuffers(window);
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
