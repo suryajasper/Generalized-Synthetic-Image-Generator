@@ -1,5 +1,4 @@
 #pragma once
-
 #include <string>
 #include <vector>
 #include <glad/glad.h>
@@ -18,6 +17,8 @@ public:
 
 	GLuint BindVBO(GLintptr vertSize, GLfloat* vertices);
 	GLuint BindEBO(GLintptr indSize, GLuint* indices);
+
+	void LinkAttribute();
 
 private:
 	std::vector<GLuint> bufferObjs;

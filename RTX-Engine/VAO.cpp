@@ -12,7 +12,8 @@ VAO::VAO(GLintptr vertSize, GLfloat* vertices, GLintptr indSize, GLuint* indices
 	this->bufferObjs.push_back(BindVBO(vertSize, vertices));
 	this->bufferObjs.push_back(BindEBO(indSize, indices));
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
+	// glVertexAttribPointer(1, 3, GL_FLOAT, false, 3 * sizeof(float), (void*)(sizeof(float) * 3));
 	glEnableVertexAttribArray(0);
 
 	Unbind();

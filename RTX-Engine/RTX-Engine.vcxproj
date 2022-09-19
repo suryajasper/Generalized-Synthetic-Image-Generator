@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\libraries\glad\src\glad.c" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="VAO.cpp" />
@@ -144,6 +145,7 @@
     <None Include="default.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="VAO.h" />
   </ItemGroup>

@@ -3,26 +3,36 @@
 #include <vector>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <glm/mat4x4.hpp>
-#include <glm/vec3.hpp>
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+#include "ShaderProgram.h"
 
 class Camera
 {
 public:
-	static Camera* main;
-
-	glm::mat4x4 view;
+	ShaderProgram* shaderProgram;
+	GLFWwindow* window;
 
 	glm::vec3 position;
 	glm::vec3 rotation;
 
+	GLfloat aspectRatio = 1.0f;
 	GLfloat fov = 45.0f;
-	GLfloat minDist = 10.0f, maxDist = 100.0f;
+	GLfloat minDist = 0.1f, maxDist = 100.0f;
 
-	Camera();
+	GLfloat speed = 25.0f;
+
+	Camera(GLFWwindow* window, ShaderProgram* shaderProgram);
+	Camera(GLFWwindow* window, ShaderProgram* shaderProgram, GLfloat aspectRatio, GLfloat fov, GLfloat minDist, GLfloat maxDist);
 	~Camera();
+
+	void DispatchMatrices();
+	void Update(float deltaTime);
 
 	void Activate();
 	void Deactivate();
-};
 
+private:
+	float rot = 0.0f;
+};

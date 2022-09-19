@@ -1,5 +1,9 @@
 #include "ShaderProgram.h"
+#include "Camera.h"
 #include "VAO.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 int main(void)
 {
@@ -14,7 +18,9 @@ int main(void)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(800, 800, "Hello World", NULL, NULL);
+    GLuint width = 800, height = 800;
+
+    window = glfwCreateWindow(width, height, "Hello World", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -47,9 +53,17 @@ int main(void)
 
     VAO* VertArray = new VAO(sizeof(vertices), vertices, sizeof(indices), indices);
 
+    Camera* camera = new Camera(window, shaderProgram);
+
     glfwSwapBuffers(window);
 
+    float prevTime = glfwGetTime() - 4.0f;
+
     /* Loop until the user closes the window */
+
+    float xPos = 0.0f, zPos = -2.0f;
+    float speed = 0.5f;
+
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
@@ -58,8 +72,20 @@ int main(void)
 
         shaderProgram->BindProgram();
 
+        float currTime = glfwGetTime();
+        float deltaTime = currTime - prevTime;
+
+        if (deltaTime > (float)1/60) {
+            camera->Update(deltaTime);
+            camera->DispatchMatrices();
+            prevTime = currTime;
+        }
+
+        //GLfloat scale = 0.5f;
+        //glUniform1fv(shaderProgram->programId, 1, &scale);
+
         VertArray->Bind();
-        glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(GLuint), GL_UNSIGNED_INT, 0);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);

@@ -9,6 +9,8 @@
 class ShaderProgram
 {
 public:
+	GLuint programId;
+
 	ShaderProgram();
 	~ShaderProgram();
 
@@ -23,7 +25,6 @@ public:
 	void LinkProgram();
 
 private:
-	GLuint programId;
 	std::vector<GLuint> shaders;
 	static void ReadShaderDataFromFile(std::string path, char** shaderData);
 };
