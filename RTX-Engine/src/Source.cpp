@@ -81,7 +81,10 @@ int main(void)
     ShaderProgram* shaderProgram = new ShaderProgram();
     shaderProgram->Initialize("resources/shaders/default.vert", "resources/shaders/default.frag");
 
-    VAO* VertArray = new VAO(sizeof(vertices), vertices, sizeof(indices), indices);
+    VAO* VertArray = new VAO(sizeof(vertices)/sizeof(GLfloat), sizeof(indices)/sizeof(GLuint));
+    VertArray->AddVertexAttribute(0, 3, vertices);
+    VertArray->AddIndices(indices);
+    //VertArray->Fuck();
 
     Camera* camera = new Camera(window, shaderProgram);
 
@@ -90,9 +93,6 @@ int main(void)
     float prevTime = glfwGetTime() - 4.0f;
 
     /* Loop until the user closes the window */
-
-    float xPos = 0.0f, zPos = -2.0f;
-    float speed = 0.5f;
 
     while (!glfwWindowShouldClose(window))
     {

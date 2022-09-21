@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -9,19 +10,30 @@ class VAO
 public:
 	GLuint id;
 
-	VAO(GLintptr vertSize, GLfloat* vertices, GLintptr indSize, GLuint* indices);
+	VAO(GLuint numVertices, GLuint numIndices);
 	~VAO();
 
 	void Bind();
 	void Unbind();
 
+	/*
 	GLuint BindVBO(GLintptr vertSize, GLfloat* vertices);
 	GLuint BindEBO(GLintptr indSize, GLuint* indices);
+	*/
 
-	void LinkAttribute();
+	void AddIndices(GLuint* indexBuffer);
+
+	void AddVertexAttribute(GLuint attribLoc, GLuint numComponents, GLfloat* bufferData, GLboolean normalized);
+	void Fuck();
+	void AddVertexAttribute(GLuint attribLoc, GLuint numComponents, GLfloat* bufferData);
 
 private:
-	std::vector<GLuint> bufferObjs;
+	GLuint* bufferLocs;
 
+	GLuint numVertices;
+	GLuint numIndices;
+	GLuint maxAttributes = 4;
+	GLuint numAttributes = 0;
+	GLuint totalStride = 0;
 };
 
