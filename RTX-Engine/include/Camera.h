@@ -31,6 +31,10 @@ public:
 	void DispatchMatrices();
 	void Update(float deltaTime);
 
+	void SetAspectRatio(GLfloat aspectRatio);
+	void SetFOV(GLfloat fov);
+	void SetClippingDistance(GLfloat minDist, GLfloat maxDist);
+
 	void Activate();
 	void Deactivate();
 

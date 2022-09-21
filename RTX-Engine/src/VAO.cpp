@@ -27,33 +27,6 @@ void VAO::Unbind()
 	glBindVertexArray(0);
 }
 
-/*
-GLuint VAO::BindVBO(GLintptr vertSize, GLfloat* vertices)
-{
-	GLuint VBO;
-
-	glGenBuffers(1, &VBO);
-
-	Bind();
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, vertSize, vertices, GL_STATIC_DRAW);
-
-	return VBO;
-}
-GLuint VAO::BindEBO(GLintptr indSize, GLuint* indices)
-{
-	GLuint EBO;
-
-	glGenBuffers(1, &EBO);
-
-	Bind();
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize, indices, GL_STATIC_DRAW);
-
-	return EBO;
-}
-*/
-
 void VAO::AddIndices(GLuint* indexBuffer) 
 {
 	Bind();
@@ -96,13 +69,6 @@ void VAO::AddVertexAttribute(GLuint attribLoc, GLuint numComponents, GLfloat* bu
 	// appropriately incrementing stride and number of attributes added
 	totalStride += bufferStride;
 	numAttributes++;
-}
-
-void VAO::Fuck() 
-{
-	Bind();
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(GLfloat), (void*)0);
-	glEnableVertexAttribArray(0);
 }
 
 void VAO::AddVertexAttribute(GLuint attribLoc, GLuint numComponents, GLfloat* bufferData)

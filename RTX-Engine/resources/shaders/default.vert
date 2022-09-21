@@ -11,7 +11,7 @@ out vec2 texCoord;
 */
 
 // Controls the scale of the vertices
-// uniform float scale;
+uniform float scale;
 
 uniform mat4 model;
 uniform mat4 view;
@@ -19,7 +19,7 @@ uniform mat4 proj;
 
 void main()
 {
-	gl_Position = vec4(position, 1.0) * proj * view * model;
+	gl_Position = scale * vec4(position, 1.0) * proj * view * model;
 	
 	// setting color and texture coordinate to be sent to fragment shader
 	// color = aColor;

@@ -1,6 +1,7 @@
 #include "ShaderProgram.h"
 #include "Camera.h"
 #include "VAO.h"
+#include "Texture2D.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
@@ -18,7 +19,7 @@ int main(void)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its OpenGL context */
-    GLuint width = 800, height = 800;
+    GLuint width = 1000, height = 700;
 
     window = glfwCreateWindow(width, height, "Hello World", NULL, NULL);
     if (!window)
@@ -30,7 +31,7 @@ int main(void)
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
     gladLoadGL();
-    glViewport(0, 0, 800, 800);
+    glViewport(0, 0, width, height);
 
     GLfloat vertices[] =
     {
@@ -84,9 +85,13 @@ int main(void)
     VAO* VertArray = new VAO(sizeof(vertices)/sizeof(GLfloat), sizeof(indices)/sizeof(GLuint));
     VertArray->AddVertexAttribute(0, 3, vertices);
     VertArray->AddIndices(indices);
-    //VertArray->Fuck();
+
+    UniformManager* uniformManager = new UniformManager(shaderProgram);
+
+    Texture2D* tex2d = new Texture2D(shaderProgram, "resources/images/csharp.png");
 
     Camera* camera = new Camera(window, shaderProgram);
+    camera->SetAspectRatio(width / height);
 
     glfwSwapBuffers(window);
 
@@ -111,7 +116,8 @@ int main(void)
             prevTime = currTime;
         }
 
-        //GLfloat scale = 0.5f;
+        GLfloat scale = 0.5f;
+        uniformManager->SetUniform("scale", UNIFORM_FLOAT, &scale);
         //glUniform1fv(shaderProgram->programId, 1, &scale);
 
         VertArray->Bind();

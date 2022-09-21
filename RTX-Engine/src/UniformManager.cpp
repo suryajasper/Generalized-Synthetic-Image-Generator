@@ -26,5 +26,8 @@ void UniformManager::SetUniform(const char* uniformName, UniformType type, void*
 	case UNIFORM_FLOAT:
 		glUniform1fv(uniformLoc, 1, (GLfloat*)data);
 		break;
+	case UNIFORM_INT:
+		glUniform1iv(uniformLoc, 1, (GLint*)data);
+		break;
 	}
 }

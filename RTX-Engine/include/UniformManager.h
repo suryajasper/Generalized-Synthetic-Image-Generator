@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 #include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include "glm/gtc/type_ptr.hpp"
 #include "ShaderProgram.h"
@@ -13,6 +12,7 @@ enum UniformType
 	UNIFORM_VEC3,
 	UNIFORM_VEC2,
 	UNIFORM_FLOAT,
+	UNIFORM_INT,
 };
 
 class UniformManager

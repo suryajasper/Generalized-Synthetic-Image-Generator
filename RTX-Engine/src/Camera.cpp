@@ -68,6 +68,22 @@ void Camera::Update(float deltaTime)
 		position += -speed * deltaTime * upVec;
 }
 
+void Camera::SetAspectRatio(GLfloat aspectRatio)
+{
+	this->aspectRatio = aspectRatio;
+}
+
+void Camera::SetFOV(GLfloat fov)
+{
+	this->fov = fov;
+}
+
+void Camera::SetClippingDistance(GLfloat minDist, GLfloat maxDist)
+{
+	this->minDist = minDist;
+	this->maxDist = maxDist;
+}
+
 void Camera::Activate()
 {
 
