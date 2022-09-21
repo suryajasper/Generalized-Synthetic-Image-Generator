@@ -7,6 +7,7 @@ Camera::Camera(GLFWwindow* window, ShaderProgram* shaderProgram)
 
 	this->window = window;
 	this->shaderProgram = shaderProgram;
+	this->uniformManager = new UniformManager(shaderProgram);
 }
 
 Camera::Camera(GLFWwindow* window, ShaderProgram* shaderProgram, GLfloat aspectRatio, GLfloat fov, GLfloat minDist, GLfloat maxDist)
@@ -16,6 +17,7 @@ Camera::Camera(GLFWwindow* window, ShaderProgram* shaderProgram, GLfloat aspectR
 
 	this->window = window;
 	this->shaderProgram = shaderProgram;
+	this->uniformManager = new UniformManager(shaderProgram);
 	
 	this->aspectRatio = aspectRatio;
 	this->fov = fov;
@@ -32,23 +34,17 @@ void Camera::DispatchMatrices()
 {
 	shaderProgram->BindProgram();
 
-	GLuint modelLoc = glGetUniformLocation(shaderProgram->programId, "model");
-	GLuint viewLoc = glGetUniformLocation(shaderProgram->programId, "view");
-	GLuint projLoc = glGetUniformLocation(shaderProgram->programId, "proj");
-
 	glm::mat4x4 model = glm::mat4x4(1.0f);
 	glm::mat4x4 view = glm::mat4x4(1.0f);
 	glm::mat4x4 proj = glm::mat4x4(1.0f);
 
 	model = glm::rotate(model, glm::radians(rot), { 0, 1, 0 });
-
-	// view = glm::translate(view, { 0, 0, -2.0f }); 
-	view = glm::lookAt(position, position + rotation, glm::vec3(0.0f, 1.0f, 0.0f));
+	view = glm::lookAt(position, position + rotation, { 0, 1, 0 });
 	proj = glm::perspective(glm::radians(fov), aspectRatio, minDist, maxDist);
 
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
+	uniformManager->SetUniform("model", UNIFORM_MAT4X4, &model);
+	uniformManager->SetUniform("view", UNIFORM_MAT4X4, &view);
+	uniformManager->SetUniform("proj", UNIFORM_MAT4X4, &proj);
 }
 
 void Camera::Update(float deltaTime)

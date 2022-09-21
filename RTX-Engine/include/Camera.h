@@ -5,7 +5,8 @@
 #include <GLFW/glfw3.h>
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
+
+#include "UniformManager.h"
 #include "ShaderProgram.h"
 
 class Camera
@@ -34,5 +35,7 @@ public:
 	void Deactivate();
 
 private:
+	UniformManager* uniformManager;
+
 	float rot = 0.0f;
 };
