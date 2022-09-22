@@ -20,9 +20,9 @@ public:
 
 	GLfloat aspectRatio = 1.0f;
 	GLfloat fov = 45.0f;
-	GLfloat minDist = 0.1f, maxDist = 100.0f;
+	GLfloat minDist = 1.0f, maxDist = 100.0f;
 
-	GLfloat speed = 25.0f;
+	GLfloat speed = 12.0f;
 
 	Camera(GLFWwindow* window, ShaderProgram* shaderProgram);
 	Camera(GLFWwindow* window, ShaderProgram* shaderProgram, GLfloat aspectRatio, GLfloat fov, GLfloat minDist, GLfloat maxDist);

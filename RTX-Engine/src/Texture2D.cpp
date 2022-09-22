@@ -3,17 +3,17 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-Texture2D::Texture2D(ShaderProgram* shaderProgram, const char* fileName)
+Texture2D::Texture2D(ShaderProgram* shaderProgram)
 {
 	this->uniformManager = new UniformManager(shaderProgram);
 
 	glGenTextures(1, &this->texId);
 	Bind();
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	this->LoadImage(fileName);
 }
 
 Texture2D::~Texture2D()
@@ -21,7 +21,7 @@ Texture2D::~Texture2D()
 	glDeleteTextures(1, &this->texId);
 }
 
-bool Texture2D::LoadImage(const char* fileName)
+bool Texture2D::LoadImage(TextureMappingType mapType, const char* fileName)
 {
 	int width, height, channels;
 	stbi_set_flip_vertically_on_load(true);

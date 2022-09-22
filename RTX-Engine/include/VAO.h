@@ -15,20 +15,16 @@ public:
 
 	void Bind();
 	void Unbind();
+	
+	GLuint CreateEBO(GLuint* indexBuffer);
+	GLuint CreateVBO(GLuint bufferSize, GLfloat* vertexBuffer);
 
-	/*
-	GLuint BindVBO(GLintptr vertSize, GLfloat* vertices);
-	GLuint BindEBO(GLintptr indSize, GLuint* indices);
-	*/
-
-	void AddIndices(GLuint* indexBuffer);
-
-	void AddVertexAttribute(GLuint attribLoc, GLuint numComponents, GLfloat* bufferData, GLboolean normalized);
-	void Fuck();
-	void AddVertexAttribute(GLuint attribLoc, GLuint numComponents, GLfloat* bufferData);
+	void LinkVertexAttribute(GLuint attribLoc, GLuint numComponents);
 
 private:
 	GLuint* bufferLocs;
+
+	GLuint VBO, EBO;
 
 	GLuint numVertices;
 	GLuint numIndices;

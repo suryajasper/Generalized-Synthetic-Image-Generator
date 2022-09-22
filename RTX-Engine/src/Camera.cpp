@@ -38,13 +38,13 @@ void Camera::DispatchMatrices()
 	glm::mat4x4 view = glm::mat4x4(1.0f);
 	glm::mat4x4 proj = glm::mat4x4(1.0f);
 
-	model = glm::rotate(model, glm::radians(rot), { 0, 1, 0 });
+	// model = glm::rotate(model, glm::radians(rot), { 0, 1, 0 });
 	view = glm::lookAt(position, position + rotation, { 0, 1, 0 });
 	proj = glm::perspective(glm::radians(fov), aspectRatio, minDist, maxDist);
 
-	uniformManager->SetUniform("model", UNIFORM_MAT4X4, &model);
-	uniformManager->SetUniform("view", UNIFORM_MAT4X4, &view);
-	uniformManager->SetUniform("proj", UNIFORM_MAT4X4, &proj);
+	glm::mat4x4 MPV = proj * view * model;
+
+	uniformManager->SetUniform("MPV", UNIFORM_MAT4X4, &MPV);
 }
 
 void Camera::Update(float deltaTime)

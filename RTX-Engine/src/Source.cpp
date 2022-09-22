@@ -34,61 +34,39 @@ int main(void)
     glViewport(0, 0, width, height);
 
     GLfloat vertices[] =
-    {
-        -1, -1,  1,
-        1, -1,  1,
-        1,  1,  1,
-        -1,  1,  1,
-
-        -1, -1, -1,
-        -1,  1, -1,
-        1,  1, -1,
-        1, -1, -1,
-
-        -1,  1, -1,
-        -1,  1,  1,
-        1,  1,  1,
-        1,  1, -1,
-
-        -1, -1, -1,
-        1, -1, -1,
-        1, -1,  1,
-        -1, -1,  1,
-
-        1, -1, -1,
-        1,  1, -1,
-        1,  1,  1,
-        1, -1,  1,
-
-        -1, -1, -1,
-        -1, -1,  1,
-        -1,  1,  1,
-        -1,  1, -1
+    { //     COORDINATES     /        COLORS      /   TexCoord  //
+        -0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	0.0f, 0.0f,
+        -0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	5.0f, 0.0f,
+         0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	0.0f, 0.0f,
+         0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	5.0f, 0.0f,
+         0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	2.5f, 5.0f
     };
 
-    for (auto i = 0; i < sizeof(vertices) / sizeof(float); i++) {
-        vertices[i] /= 5.0f;
-    }
-
-    GLuint indices[] = {
-        0, 1, 2, 0, 2, 3,
-        4, 5, 6, 4, 6, 7,
-        8, 9, 10, 8, 10, 11,
-        12, 13, 14, 12, 14, 15,
-        16, 17, 18, 16, 18, 19,
-        20, 21, 22, 20, 22, 23
+    // Indices for vertices order
+    GLuint indices[] =
+    {
+        0, 1, 2,
+        0, 2, 3,
+        0, 1, 4,
+        1, 2, 4,
+        2, 3, 4,
+        3, 0, 4
     };
 
     ShaderProgram* shaderProgram = new ShaderProgram();
     shaderProgram->Initialize("resources/shaders/default.vert", "resources/shaders/default.frag");
 
     VAO* VertArray = new VAO(sizeof(vertices)/sizeof(GLfloat), sizeof(indices)/sizeof(GLuint));
-    VertArray->AddVertexAttribute(0, 3, vertices);
-    VertArray->AddIndices(indices);
+    VertArray->CreateVBO(sizeof(vertices), vertices);
+    VertArray->CreateEBO(indices);
+    VertArray->LinkVertexAttribute(0, 3);
+    VertArray->LinkVertexAttribute(1, 3);
+    VertArray->LinkVertexAttribute(2, 2);
 
     UniformManager* uniformManager = new UniformManager(shaderProgram);
 
-    Texture2D* tex2d = new Texture2D(shaderProgram, "resources/images/csharp.png");
+    Texture2D* tex2d = new Texture2D(shaderProgram);
+    tex2d->LoadImage(TEX_MAP_COLOR, "resources/images/bricktex.jpg");
 
     Camera* camera = new Camera(window, shaderProgram);
     camera->SetAspectRatio(width / height);
@@ -120,8 +98,10 @@ int main(void)
         uniformManager->SetUniform("scale", UNIFORM_FLOAT, &scale);
         //glUniform1fv(shaderProgram->programId, 1, &scale);
 
+        tex2d->Bind();
         VertArray->Bind();
-        glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(GLuint), GL_UNSIGNED_INT, 0);
+        // glDrawArrays(GL_TRIANGLES, 0, 6);
+        glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
