@@ -19,7 +19,7 @@ int main(void)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its OpenGL context */
-    GLuint width = 1000, height = 700;
+    GLuint width = 700, height = 700;
 
     window = glfwCreateWindow(width, height, "Hello World", NULL, NULL);
     if (!window)
@@ -73,6 +73,8 @@ int main(void)
 
     glfwSwapBuffers(window);
 
+    glEnable(GL_DEPTH_TEST);
+
     float prevTime = glfwGetTime() - 4.0f;
 
     /* Loop until the user closes the window */
@@ -80,8 +82,9 @@ int main(void)
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
-        glClearColor(0.0f, 0.8f, 0.8f, 1);
+        glClearColor(0.0f, 0.3f, 0.3f, 1);
         glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_DEPTH_BUFFER_BIT);
 
         shaderProgram->BindProgram();
 

@@ -2,7 +2,7 @@
 
 Camera::Camera(GLFWwindow* window, ShaderProgram* shaderProgram)
 {
-	position = { 0.0f, 0.5f,  2.0f };
+	position = { 0.0f, 0.0f,  2.0f };
 	rotation = { 0.0f, 0.0f, -1.0f };
 
 	this->window = window;
@@ -12,7 +12,7 @@ Camera::Camera(GLFWwindow* window, ShaderProgram* shaderProgram)
 
 Camera::Camera(GLFWwindow* window, ShaderProgram* shaderProgram, GLfloat aspectRatio, GLfloat fov, GLfloat minDist, GLfloat maxDist)
 {
-	position = { 0.0f, 0.5f,  2.0f };
+	position = { 0.0f, 0.0f,  2.0f };
 	rotation = { 0.0f, 0.0f, -1.0f };
 
 	this->window = window;
@@ -38,8 +38,8 @@ void Camera::DispatchMatrices()
 	glm::mat4x4 view = glm::mat4x4(1.0f);
 	glm::mat4x4 proj = glm::mat4x4(1.0f);
 
-	// model = glm::rotate(model, glm::radians(rot), { 0, 1, 0 });
-	view = glm::lookAt(position, position + rotation, { 0, 1, 0 });
+	model = glm::rotate(model, glm::radians(rot), { 0, 1, 0 });
+	view = glm::lookAt(position, position + rotation, {0, 1, 0});
 	proj = glm::perspective(glm::radians(fov), aspectRatio, minDist, maxDist);
 
 	glm::mat4x4 MPV = proj * view * model;
@@ -51,7 +51,7 @@ void Camera::Update(float deltaTime)
 {
 	glm::vec3 upVec = { 0, 1, 0 };
 
-	rot += speed * deltaTime;
+	rot += 25.0f * deltaTime;
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		position +=  speed * deltaTime * rotation;
