@@ -2,8 +2,8 @@
 
 Camera::Camera(GLFWwindow* window)
 {
-	SetPosition(0.0f, 0.0f, 2.0f);
-	rotation = { 0.0f, 0.0f, -1.0f };
+	SetPosition(0.0f, 0.0f,  2.0f);
+	SetRotation(0.0f, 0.0f, -1.0f);
 
 	this->window = window;
 }
@@ -13,9 +13,7 @@ Camera::~Camera()
 }
 
 void Camera::ViewProjMatrices(glm::mat4& view, glm::mat4& proj)
-{
-	glm::vec3 position = *GetPosition();
-	
+{	
 	view = glm::mat4x4(1.0f);
 	proj = glm::mat4x4(1.0f);
 
@@ -28,10 +26,6 @@ void Camera::Update(float deltaTime)
 	static float total = 0;
 
 	glm::vec3 upVec = { 0, 1, 0 };
-
-	trans = glm::vec3(0, glm::sin(total), 0);
-
-	rot += speed * deltaTime;
 
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
 		rotation.y +=  speed * deltaTime;

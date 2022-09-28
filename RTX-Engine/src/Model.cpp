@@ -50,6 +50,10 @@ void Model::DispatchMatrices(Camera* camera)
 {
 	glm::mat4x4 view, proj, model;
 	model = glm::mat4x4(1.0f);
+	model = glm::translate(model, position);
+	model = glm::rotate(model, rotation.x, {1, 0, 0});
+	model = glm::rotate(model, rotation.y, {0, 1, 0});
+	model = glm::rotate(model, rotation.z, {0, 0, 1});
 
 	camera->ViewProjMatrices(view, proj);
 	glm::mat4x4 MPV = proj * view * model;

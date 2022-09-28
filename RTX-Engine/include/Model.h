@@ -7,7 +7,7 @@
 #include "ShaderProgram.h"
 #include "VAO.h"
 
-class Model : Transformable
+class Model : public Transformable
 {
 public:
 	Model();

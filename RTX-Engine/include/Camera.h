@@ -15,8 +15,6 @@ class Camera : Transformable
 public:
 	GLFWwindow* window;
 
-	glm::vec3 rotation;
-
 	Camera(GLFWwindow* window);
 	~Camera();
 
@@ -37,8 +35,5 @@ private:
 
 	GLfloat speed = 20.0f;
 
-	glm::vec3 trans = { 0, 0, 0 };
-
 	bool firstClick = false;
-	float rot = 0.0f;
 };
