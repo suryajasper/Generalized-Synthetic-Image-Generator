@@ -3,6 +3,16 @@
 Scene::Scene(GLFWwindow* window)
 {
 	this->window = window;
+    this->light = nullptr;
+}
+
+Scene::~Scene() 
+{
+    for (Model* sceneObj : sceneObjects)
+        delete sceneObj;
+
+    delete light;
+    delete camera;
 }
 
 void Scene::SetCamera(Camera* camera)
@@ -10,8 +20,17 @@ void Scene::SetCamera(Camera* camera)
 	this->camera = camera;
 }
 
+void Scene::SetLight(Light* light)
+{
+    this->light = light;
+
+    for (Model* sceneObj : sceneObjects)
+        sceneObj->SetLight(light);
+}
+
 void Scene::AddSceneObject(Model* sceneObj)
 {
+    sceneObj->SetLight(light);
 	sceneObjects.push_back(sceneObj);
 }
 

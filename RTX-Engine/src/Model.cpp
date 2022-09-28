@@ -31,6 +31,11 @@ void Model::LinkTexture(const char* fileName)
 	tex->LoadImage(TEX_MAP_COLOR, fileName);
 }
 
+void Model::SetLight(Light* light)
+{
+	this->light = light;
+}
+
 void Model::Draw(Camera* camera)
 {
 	shader->BindProgram();
@@ -57,6 +62,10 @@ void Model::DispatchMatrices(Camera* camera)
 	camera->ViewProjMatrices(view, proj);
 
 	glm::mat4x4 MPV = proj * view * model;
+
+	uniformManager->SetUniform("lightPosIn", UNIFORM_VEC3, &(light->position));
+	uniformManager->SetUniform("lightColorIn", UNIFORM_VEC3, &(light->color));
+	uniformManager->SetUniform("lightIntensityIn", UNIFORM_FLOAT, &(light->intensity));
 
 	uniformManager->SetUniform("MPV", UNIFORM_MAT4X4, &MPV);
 }

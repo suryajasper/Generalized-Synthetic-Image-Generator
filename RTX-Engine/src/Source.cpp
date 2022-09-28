@@ -39,8 +39,12 @@ int main(void)
     Camera* camera = new Camera(window);
     camera->SetAspectRatio((GLfloat)width / height);
 
+    Light* diffuseLight = new Light();
+    diffuseLight->SetPosition(1.0f, 1.5f, 2.0f);
+
     Scene* scene = new Scene(window);
     scene->SetCamera(camera);
+    scene->SetLight(diffuseLight);
 
     Model* monkey = new Model();
     monkey->LoadMesh("resources/models/monkey.obj");
