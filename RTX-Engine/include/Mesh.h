@@ -33,6 +33,7 @@ private:
 	
 	unsigned int numVerts = 0;
 	GLfloat attribs[1000000];
+	bool DEBUG_MODE = false;
 
 	void AddVertex(GLfloat x, GLfloat y, GLfloat z);
 	void AddTexCoord(GLfloat u, GLfloat v);

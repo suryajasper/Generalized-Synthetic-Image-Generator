@@ -23,7 +23,7 @@ void Mesh::AddNormal(GLfloat x, GLfloat y, GLfloat z)
 void Mesh::AddFace(unsigned int faceVerts[3], unsigned int faceTexCoords[3], unsigned int faceNorms[3])
 {
 	for (unsigned int i = 0; i < 3; i++) {
-		std::cout << "adding face "
+		if (DEBUG_MODE) std::cout << "adding face "
 			<< "\t" << vertices.size() << "-" << faceVerts[i] - 1
 			<< "\t" << texCoords.size() << "-" << faceTexCoords[i] - 1
 			<< "\t" << normals.size() << "-" << faceNorms[i] - 1
@@ -60,24 +60,23 @@ void Mesh::LoadMeshDataFromFile(char* fileName)
 
 	char func[99]; GLfloat data[3];
 	while (!cin.eof()) {
-		std::cout << "hi" << std::endl;
 		cin >> func;
 
-		std::cout << "---------X" << func << "X" << std::endl;
+		if (DEBUG_MODE) std::cout << "---------X" << func << "X" << std::endl;
 
 		if (strcmp(func, "v") == 0) {
 			cin >> data[0] >> data[1] >> data[2];
-			std::cout << "vertex " << data[0] << "\t" << data[1] << "\t" << data[2] << std::endl;
+			if (DEBUG_MODE) std::cout << "vertex " << data[0] << "\t" << data[1] << "\t" << data[2] << std::endl;
 			AddVertex(data[0], data[1], data[2]);
 		} 
 		else if (strcmp(func, "vt") == 0) {
 			cin >> data[0] >> data[1];
-			std::cout << "tex coord " << data[0] << "\t" << data[1] << std::endl;
+			if (DEBUG_MODE) std::cout << "tex coord " << data[0] << "\t" << data[1] << std::endl;
 			AddTexCoord(data[0], data[1]);
 		} 
 		else if (strcmp(func, "vn") == 0) {
 			cin >> data[0] >> data[1] >> data[2];
-			std::cout << "normal " << data[0] << "\t" << data[1] << "\t" << data[2] << std::endl;
+			if (DEBUG_MODE) std::cout << "normal " << data[0] << "\t" << data[1] << "\t" << data[2] << std::endl;
 			AddNormal(data[0], data[1], data[2]);
 		} 
 		else if (strcmp(func, "f") == 0) {
@@ -89,7 +88,7 @@ void Mesh::LoadMeshDataFromFile(char* fileName)
 				>> vis[1] >> slash >> tcis[1] >> slash >> nis[1]
 				>> vis[2] >> slash >> tcis[2] >> slash >> nis[2];
 
-			std::cout << "face " << "\t"
+			if (DEBUG_MODE) std::cout << "face " << "\t"
 				<< vis[0] << "\t" << tcis[0] << "\t" << nis[0] << "\t"
 				<< vis[1] << "\t" << tcis[1] << "\t" << nis[1] << "\t"
 				<< vis[2] << "\t" << tcis[2] << "\t" << nis[2] << "\t" 

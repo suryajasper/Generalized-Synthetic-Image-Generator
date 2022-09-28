@@ -78,7 +78,6 @@ int main(void)
     float prevTime = glfwGetTime() - 4.0f;
 
     Mesh* mesh = new Mesh((char*) "resources/cube.obj");
-    std::cout << "hweoiafjoiawefj" << std::endl;
 
     /* Loop until the user closes the window */
 
