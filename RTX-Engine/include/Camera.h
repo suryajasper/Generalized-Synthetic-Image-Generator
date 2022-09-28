@@ -13,16 +13,14 @@
 class Camera : Transformable
 {
 public:
-	ShaderProgram* shaderProgram;
 	GLFWwindow* window;
 
 	glm::vec3 rotation;
 
-	Camera(GLFWwindow* window, ShaderProgram* shaderProgram);
-	Camera(GLFWwindow* window, ShaderProgram* shaderProgram, GLfloat aspectRatio, GLfloat fov, GLfloat minDist, GLfloat maxDist);
+	Camera(GLFWwindow* window);
 	~Camera();
 
-	void DispatchMatrices();
+	void ViewProjMatrices(glm::mat4& view, glm::mat4& proj);
 	void Update(float deltaTime);
 
 	void SetAspectRatio(GLfloat aspectRatio);
@@ -33,13 +31,13 @@ public:
 	void Deactivate();
 
 private:
-	UniformManager* uniformManager;
-
 	GLfloat aspectRatio = 1.0f;
 	GLfloat fov = 45.0f;
 	GLfloat minDist = 0.1f, maxDist = 100.0f;
 
-	GLfloat speed = 2.0f;
+	GLfloat speed = 20.0f;
+
+	glm::vec3 trans = { 0, 0, 0 };
 
 	bool firstClick = false;
 	float rot = 0.0f;

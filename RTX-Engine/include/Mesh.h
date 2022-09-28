@@ -8,10 +8,9 @@
 class Mesh
 {
 public:
-	Mesh(char* fileName);
+	Mesh(const char* fileName);
 	~Mesh();
-	
-	void LinkTexture(Texture2D* tex2D);
+
 	void PrintMeshData();
 
 	unsigned int numVerts = 0;
@@ -34,6 +33,6 @@ private:
 
 	void AddFace(unsigned int faceVerts[3], unsigned int faceTexCoords[3], unsigned int faceNorms[3]);
 
-	void LoadMeshDataFromFile(char* fileName);
+	void LoadMeshDataFromFile(const char* fileName);
 };
 

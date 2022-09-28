@@ -1,6 +1,6 @@
 #include "Mesh.h"
 
-Mesh::Mesh(char* fileName)
+Mesh::Mesh(const char* fileName)
 {
 	LoadMeshDataFromFile(fileName);
 }
@@ -75,7 +75,7 @@ std::istream& slash(std::istream& in) {
 	return in;
 }
 
-void Mesh::LoadMeshDataFromFile(char* fileName)
+void Mesh::LoadMeshDataFromFile(const char* fileName)
 {
 	std::cout << fileName << std::endl;
 	std::ifstream cin(fileName);
