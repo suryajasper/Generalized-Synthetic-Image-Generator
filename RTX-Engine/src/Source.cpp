@@ -62,8 +62,8 @@ int main(void)
     Mesh* mesh = new Mesh((char*) "resources/cube.obj");
     mesh->PrintMeshData();
 
-    GLuint* indices = new GLuint[mesh->numVerts / 3];
-    for (unsigned int i = 0; i < mesh->numVerts / 3; i++)
+    GLuint* indices = new GLuint[mesh->numVerts];
+    for (unsigned int i = 0; i < mesh->numVerts; i++)
         indices[i] = i;
 
     /*
@@ -74,7 +74,7 @@ int main(void)
     VertArray->LinkVertexAttribute(1, 2);
     */
 
-    VAO* VertArray = new VAO(mesh->numVerts * 8, mesh->numVerts / 3, 8);
+    VAO* VertArray = new VAO(mesh->numVerts * 8, mesh->numVerts, 8);
     VertArray->CreateVBO(mesh->numVerts * 8 * sizeof(GLfloat), mesh->attribs);
     VertArray->CreateEBO(indices);
     VertArray->LinkVertexAttribute(0, 3);
@@ -122,7 +122,7 @@ int main(void)
         tex2d->Bind();
         VertArray->Bind();
         // glDrawArrays(GL_TRIANGLES, 0, 6);
-        glDrawElements(GL_TRIANGLES, mesh->numVerts/3, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, mesh->numVerts, GL_UNSIGNED_INT, 0);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
