@@ -1,7 +1,8 @@
 #include "VAO.h"
 
-VAO::VAO(GLuint numVertices, GLuint numIndices)
+VAO::VAO(GLuint numVertices, GLuint numIndices, GLuint maxAttributes)
 {
+	this->maxAttributes = maxAttributes;
 	this->numVertices = numVertices;
 	this->numIndices = numIndices;
 	this->bufferLocs = new GLuint[maxAttributes];
@@ -70,7 +71,7 @@ void VAO::LinkVertexAttribute(GLuint attribLoc, GLuint numComponents)
 	Bind();
 
 	// calculating stride and size for buffer and allotting memory address
-	GLuint bufferStride = 8 * sizeof(GLfloat);
+	GLuint bufferStride = maxAttributes * sizeof(GLfloat);
 	GLuint* bufferLoc = bufferLocs + numAttributes;
 
 	// assigning attribute information to vertex shader

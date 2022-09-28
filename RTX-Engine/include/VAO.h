@@ -10,7 +10,7 @@ class VAO
 public:
 	GLuint id;
 
-	VAO(GLuint numVertices, GLuint numIndices);
+	VAO(GLuint numVertices, GLuint numIndices, GLuint maxAttributes);
 	~VAO();
 
 	void Bind();

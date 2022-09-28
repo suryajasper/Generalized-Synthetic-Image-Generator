@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include "VAO.h"
 #include "Texture2D.h"
+#include "Mesh.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
@@ -19,7 +20,7 @@ int main(void)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its OpenGL context */
-    GLuint width = 700, height = 700;
+    GLuint width = 1200, height = 800;
 
     window = glfwCreateWindow(width, height, "Hello World", NULL, NULL);
     if (!window)
@@ -34,12 +35,12 @@ int main(void)
     glViewport(0, 0, width, height);
 
     GLfloat vertices[] =
-    { //     COORDINATES     /        COLORS      /   TexCoord  //
-        -0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	0.0f, 0.0f,
-        -0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	5.0f, 0.0f,
-         0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	0.0f, 0.0f,
-         0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	5.0f, 0.0f,
-         0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	2.5f, 5.0f
+    { //     COORDINATES     /   TexCoord  //
+        -0.5f, 0.0f,  0.5f,     0.0f, 0.0f,
+        -0.5f, 0.0f, -0.5f,     5.0f, 0.0f,
+         0.5f, 0.0f, -0.5f,     0.0f, 0.0f,
+         0.5f, 0.0f,  0.5f,     5.0f, 0.0f,
+         0.0f, 0.8f,  0.0f,     2.5f, 5.0f,
     };
 
     // Indices for vertices order
@@ -56,26 +57,28 @@ int main(void)
     ShaderProgram* shaderProgram = new ShaderProgram();
     shaderProgram->Initialize("resources/shaders/default.vert", "resources/shaders/default.frag");
 
-    VAO* VertArray = new VAO(sizeof(vertices)/sizeof(GLfloat), sizeof(indices)/sizeof(GLuint));
+    VAO* VertArray = new VAO(sizeof(vertices)/sizeof(GLfloat), sizeof(indices)/sizeof(GLuint), 5);
     VertArray->CreateVBO(sizeof(vertices), vertices);
     VertArray->CreateEBO(indices);
     VertArray->LinkVertexAttribute(0, 3);
-    VertArray->LinkVertexAttribute(1, 3);
-    VertArray->LinkVertexAttribute(2, 2);
+    VertArray->LinkVertexAttribute(1, 2);
 
     UniformManager* uniformManager = new UniformManager(shaderProgram);
 
     Texture2D* tex2d = new Texture2D(shaderProgram);
-    tex2d->LoadImage(TEX_MAP_COLOR, "resources/images/bricktex.jpg");
+    tex2d->LoadImage(TEX_MAP_COLOR, "resources/images/Clay-Bricks-1.png");
 
     Camera* camera = new Camera(window, shaderProgram);
-    camera->SetAspectRatio(width / height);
+    camera->SetAspectRatio((float) width / height);
 
     glfwSwapBuffers(window);
 
     glEnable(GL_DEPTH_TEST);
 
     float prevTime = glfwGetTime() - 4.0f;
+
+    Mesh* mesh = new Mesh((char*) "resources/cube.obj");
+    std::cout << "hweoiafjoiawefj" << std::endl;
 
     /* Loop until the user closes the window */
 

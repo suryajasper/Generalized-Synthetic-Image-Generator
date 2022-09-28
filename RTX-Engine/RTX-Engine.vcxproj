@@ -141,6 +141,7 @@
     <ClCompile Include="src\VAO.cpp" />
     <ClCompile Include="src\Texture2D.cpp" />
     <ClCompile Include="src\UniformManager.cpp" />
+    <ClCompile Include="src\Transformable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -156,6 +157,7 @@
     <ClInclude Include="include\Mesh.h" />
     <ClInclude Include="include\Texture2D.h" />
     <ClInclude Include="include\UniformManager.h" />
+    <ClInclude Include="include\Transformable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
