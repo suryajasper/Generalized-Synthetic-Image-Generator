@@ -1,5 +1,6 @@
 #include "Model.h"
 #include "Camera.h"
+#include "Scene.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
@@ -35,18 +36,23 @@ int main(void)
     GLuint width = 1200, height = 800;
     GLFWwindow* window = CreateWindow("Generalized Synthetic Image Generator", width, height);
 
-    Model* monkey = new Model();
-    monkey->LoadMesh("resources/monkey.obj");
-    monkey->LinkTexture("resources/images/bricktex.jpg");
-
-    Model* cube = new Model();
-    cube->LoadMesh("resources/cube.obj");
-    cube->LinkTexture("resources/images/Clay-Bricks-1.png");
-
     Camera* camera = new Camera(window);
     camera->SetAspectRatio((GLfloat)width / height);
 
-    float prevTime = glfwGetTime() - 4.0f;
+    Scene* scene = new Scene(window);
+    scene->SetCamera(camera);
+
+    Model* monkey = new Model();
+    monkey->LoadMesh("resources/models/monkey.obj");
+    monkey->LinkTexture("resources/images/bricktex.jpg");
+    scene->AddSceneObject(monkey);
+
+    Model* cube = new Model();
+    cube->LoadMesh("resources/models/cube.obj");
+    cube->LinkTexture("resources/images/Clay-Bricks-1.png");
+    scene->AddSceneObject(cube);
+
+    float prevTime = glfwGetTime();
 
     while (!glfwWindowShouldClose(window))
     {
@@ -54,24 +60,19 @@ int main(void)
         float deltaTime = currTime - prevTime;
 
         if (deltaTime > (float)1/100) {
-            glClearColor(0.0f, 0.3f, 0.3f, 1);
-            glClear(GL_COLOR_BUFFER_BIT);
-            glClear(GL_DEPTH_BUFFER_BIT);
 
             camera->Update(deltaTime);
-
-            prevTime = currTime;
             
             cube->SetPosition(-1, 0, 0);
             cube->Rotate(glm::vec3(1, 1, 0) * deltaTime);
-            cube->Draw(camera);
 
             monkey->SetPosition(1, 0, 0);
             monkey->Rotate(glm::vec3(1, 1, 0) * -deltaTime);
             monkey->SetScale(glm::abs(glm::sin(glfwGetTime())));
-            monkey->Draw(camera);
 
-            glfwSwapBuffers(window);
+            scene->Render();
+
+            prevTime = currTime;
         }
 
         glfwPollEvents();
