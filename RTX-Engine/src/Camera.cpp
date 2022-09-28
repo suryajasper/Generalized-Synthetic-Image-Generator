@@ -27,14 +27,16 @@ void Camera::Update(float deltaTime)
 
 	glm::vec3 upVec = { 0, 1, 0 };
 
+	float rotSpeed = 1.0f;
+
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		rotation.y +=  speed * deltaTime;
+		rotation.y += rotSpeed * deltaTime;
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		rotation.y += -speed * deltaTime;
+		rotation.y += -rotSpeed * deltaTime;
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		rotation.x += speed * deltaTime;
+		rotation.x += rotSpeed * deltaTime;
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		rotation.x += -speed * deltaTime;
+		rotation.x += -rotSpeed * deltaTime;
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		Translate(  speed * deltaTime * rotation );

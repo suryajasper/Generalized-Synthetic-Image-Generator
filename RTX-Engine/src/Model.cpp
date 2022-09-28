@@ -34,9 +34,6 @@ void Model::LinkTexture(const char* fileName)
 void Model::Draw(Camera* camera)
 {
 	shader->BindProgram();
-
-	GLfloat scale = 0.5f;
-	uniformManager->SetUniform("scale", UNIFORM_FLOAT, &scale);
 	
 	DispatchMatrices(camera);
 	
@@ -49,13 +46,16 @@ void Model::Draw(Camera* camera)
 void Model::DispatchMatrices(Camera* camera)
 {
 	glm::mat4x4 view, proj, model;
+
 	model = glm::mat4x4(1.0f);
 	model = glm::translate(model, position);
 	model = glm::rotate(model, rotation.x, {1, 0, 0});
 	model = glm::rotate(model, rotation.y, {0, 1, 0});
 	model = glm::rotate(model, rotation.z, {0, 0, 1});
+	model = glm::scale(model, glm::vec3(scale));
 
 	camera->ViewProjMatrices(view, proj);
+
 	glm::mat4x4 MPV = proj * view * model;
 
 	uniformManager->SetUniform("MPV", UNIFORM_MAT4X4, &MPV);
