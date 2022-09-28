@@ -2,7 +2,7 @@
 
 Camera::Camera(GLFWwindow* window, ShaderProgram* shaderProgram)
 {
-	position = { 0.0f, 0.0f,  2.0f };
+	SetPosition(0.0f, 0.0f, 2.0f);
 	rotation = { 0.0f, 0.0f, -1.0f };
 
 	this->window = window;
@@ -12,7 +12,7 @@ Camera::Camera(GLFWwindow* window, ShaderProgram* shaderProgram)
 
 Camera::Camera(GLFWwindow* window, ShaderProgram* shaderProgram, GLfloat aspectRatio, GLfloat fov, GLfloat minDist, GLfloat maxDist)
 {
-	position = { 0.0f, 0.0f,  2.0f };
+	SetPosition(0.0f, 0.0f,  2.0f);
 	rotation = { 0.0f, 0.0f, -1.0f };
 
 	this->window = window;
@@ -34,6 +34,8 @@ void Camera::DispatchMatrices()
 {
 	shaderProgram->BindProgram();
 
+	glm::vec3 position = *GetPosition();
+
 	glm::mat4x4 model = glm::mat4x4(1.0f);
 	glm::mat4x4 view = glm::mat4x4(1.0f);
 	glm::mat4x4 proj = glm::mat4x4(1.0f);
@@ -51,21 +53,30 @@ void Camera::Update(float deltaTime)
 {
 	glm::vec3 upVec = { 0, 1, 0 };
 
-	rot += 25.0f * deltaTime;
+	rot += speed * deltaTime;
+
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+		rotation.y +=  speed * deltaTime;
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+		rotation.y += -speed * deltaTime;
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+		rotation.x += speed * deltaTime;
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+		rotation.x += -speed * deltaTime;
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		position +=  speed * deltaTime * rotation;
+		Translate(  speed * deltaTime * rotation );
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		position += -speed * deltaTime * rotation;
+		Translate( -speed * deltaTime * rotation );
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		position +=  speed * deltaTime *  glm::normalize(glm::cross(rotation, upVec));
+		Translate(  speed * deltaTime *  glm::normalize(glm::cross(rotation, upVec)) );
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		position +=  speed * deltaTime * -glm::normalize(glm::cross(rotation, upVec));
+		Translate(  speed * deltaTime * -glm::normalize(glm::cross(rotation, upVec)) );
 
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-		position +=  speed * deltaTime * upVec;
+		Translate(  speed * deltaTime * upVec );
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-		position += -speed * deltaTime * upVec;
+		Translate( -speed * deltaTime * upVec );
 }
 
 void Camera::SetAspectRatio(GLfloat aspectRatio)

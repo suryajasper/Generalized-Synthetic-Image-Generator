@@ -8,14 +8,14 @@
 
 #include "UniformManager.h"
 #include "ShaderProgram.h"
+#include "Transformable.h"
 
-class Camera
+class Camera : Transformable
 {
 public:
 	ShaderProgram* shaderProgram;
 	GLFWwindow* window;
 
-	glm::vec3 position;
 	glm::vec3 rotation;
 
 	Camera(GLFWwindow* window, ShaderProgram* shaderProgram);
