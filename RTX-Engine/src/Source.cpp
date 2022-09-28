@@ -34,6 +34,7 @@ int main(void)
     gladLoadGL();
     glViewport(0, 0, width, height);
 
+    /*
     GLfloat vertices[] =
     { //     COORDINATES     /   TexCoord  //
         -0.5f, 0.0f,  0.5f,     0.0f, 0.0f,
@@ -53,15 +54,32 @@ int main(void)
         2, 3, 4,
         3, 0, 4
     };
+    */
 
     ShaderProgram* shaderProgram = new ShaderProgram();
     shaderProgram->Initialize("resources/shaders/default.vert", "resources/shaders/default.frag");
 
+    Mesh* mesh = new Mesh((char*) "resources/cube.obj");
+    mesh->PrintMeshData();
+
+    GLuint* indices = new GLuint[mesh->numVerts / 3];
+    for (unsigned int i = 0; i < mesh->numVerts / 3; i++)
+        indices[i] = i;
+
+    /*
     VAO* VertArray = new VAO(sizeof(vertices)/sizeof(GLfloat), sizeof(indices)/sizeof(GLuint), 5);
     VertArray->CreateVBO(sizeof(vertices), vertices);
     VertArray->CreateEBO(indices);
     VertArray->LinkVertexAttribute(0, 3);
     VertArray->LinkVertexAttribute(1, 2);
+    */
+
+    VAO* VertArray = new VAO(mesh->numVerts * 8, mesh->numVerts / 3, 8);
+    VertArray->CreateVBO(mesh->numVerts * 8 * sizeof(GLfloat), mesh->attribs);
+    VertArray->CreateEBO(indices);
+    VertArray->LinkVertexAttribute(0, 3);
+    VertArray->LinkVertexAttribute(1, 2);
+    VertArray->LinkVertexAttribute(2, 3);
 
     UniformManager* uniformManager = new UniformManager(shaderProgram);
 
@@ -76,8 +94,6 @@ int main(void)
     glEnable(GL_DEPTH_TEST);
 
     float prevTime = glfwGetTime() - 4.0f;
-
-    Mesh* mesh = new Mesh((char*) "resources/cube.obj");
 
     /* Loop until the user closes the window */
 
@@ -106,7 +122,7 @@ int main(void)
         tex2d->Bind();
         VertArray->Bind();
         // glDrawArrays(GL_TRIANGLES, 0, 6);
-        glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, mesh->numVerts/3, GL_UNSIGNED_INT, 0);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);

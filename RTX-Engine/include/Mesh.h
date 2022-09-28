@@ -8,19 +8,14 @@
 class Mesh
 {
 public:
-	GLuint* indices;
-
-	Mesh(GLfloat* vertices, GLuint* indices);
 	Mesh(char* fileName);
 	~Mesh();
 	
 	void LinkTexture(Texture2D* tex2D);
+	void PrintMeshData();
 
-	glm::vec3* GetVertexNormals();
-	glm::vec3* GetEdgeNormals();
-	glm::vec3* GetFaceNormals();
-
-	float* GetBoundingBox();
+	unsigned int numVerts = 0;
+	GLfloat attribs[1000000];
 
 private:
 	ShaderProgram* shaderProgram;
@@ -31,8 +26,6 @@ private:
 	std::vector<glm::vec2> texCoords;
 	std::vector<glm::vec3> normals;
 	
-	unsigned int numVerts = 0;
-	GLfloat attribs[1000000];
 	bool DEBUG_MODE = false;
 
 	void AddVertex(GLfloat x, GLfloat y, GLfloat z);
