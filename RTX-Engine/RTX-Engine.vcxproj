@@ -144,7 +144,6 @@
     <ClCompile Include="src\Source.cpp" />
     <ClCompile Include="src\VAO.cpp" />
     <ClCompile Include="src\Texture2D.cpp" />
-    <ClCompile Include="src\UniformManager.cpp" />
     <ClCompile Include="src\Transformable.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -160,7 +159,6 @@
     <ClInclude Include="include\VAO.h" />
     <ClInclude Include="include\Mesh.h" />
     <ClInclude Include="include\Texture2D.h" />
-    <ClInclude Include="include\UniformManager.h" />
     <ClInclude Include="include\Transformable.h" />
     <ClInclude Include="include\Model.h" />
     <ClInclude Include="include\Scene.h" />

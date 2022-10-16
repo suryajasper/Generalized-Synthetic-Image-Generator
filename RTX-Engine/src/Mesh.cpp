@@ -8,7 +8,6 @@ Mesh::Mesh(const char* fileName)
 Mesh::~Mesh()
 {
 	delete shaderProgram;
-	delete uniformManager;
 	delete texture;
 }
 

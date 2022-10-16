@@ -5,7 +5,7 @@
 
 Texture2D::Texture2D(ShaderProgram* shaderProgram)
 {
-	this->uniformManager = new UniformManager(shaderProgram);
+	this->shader = shaderProgram;
 
 	glGenTextures(1, &this->texId);
 	Bind();
@@ -36,7 +36,7 @@ bool Texture2D::LoadImage(TextureMappingType mapType, const char* fileName)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	uniformManager->SetUniform("tex0", UNIFORM_INT, 0);
+	shader->SetUniform("tex0", UNIFORM_INT, 0);
 	
 	Unbind();
 	stbi_image_free(image);

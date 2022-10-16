@@ -44,6 +44,29 @@ GLuint ShaderProgram::CreateShader(int shaderType, std::string path)
     return shader;
 }
 
+void ShaderProgram::SetUniform(const char* uniformName, UniformType type, void* data)
+{
+    GLuint uniformLoc = glGetUniformLocation(this->programId, uniformName);
+
+    switch (type) {
+    case UNIFORM_MAT4X4:
+        glUniformMatrix4fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(*((glm::mat4x4*)data)));
+        break;
+    case UNIFORM_VEC3:
+        glUniform3fv(uniformLoc, 1, glm::value_ptr(*((glm::vec3*)data)));
+        break;
+    case UNIFORM_VEC2:
+        glUniform2fv(uniformLoc, 1, glm::value_ptr(*((glm::vec2*)data)));
+        break;
+    case UNIFORM_FLOAT:
+        glUniform1fv(uniformLoc, 1, (GLfloat*)data);
+        break;
+    case UNIFORM_INT:
+        glUniform1iv(uniformLoc, 1, (GLint*)data);
+        break;
+    }
+}
+
 void ShaderProgram::AttachShader(GLuint shaderId) 
 {
     std::cout << "--ATTACH shader " << shaderId << " to program " << this->programId << std::endl;

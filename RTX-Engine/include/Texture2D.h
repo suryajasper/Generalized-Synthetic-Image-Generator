@@ -2,7 +2,7 @@
 //#include "stb_image_resize.h"
 #include <iostream>
 #include <glad/glad.h>
-#include "UniformManager.h"
+#include "ShaderProgram.h"
 
 enum TextureMappingType {
 	TEX_MAP_COLOR,
@@ -26,6 +26,6 @@ public:
 private:
 	GLuint texId;
 
-	UniformManager* uniformManager;
+	ShaderProgram* shader;
 };
 

@@ -1,5 +1,4 @@
 #pragma once
-#include "UniformManager.h"
 #include "Texture2D.h"
 #include "Transformable.h"
 #include "Mesh.h"
@@ -23,7 +22,6 @@ public:
 
 	ShaderProgram* shader;
 private:
-	UniformManager* uniformManager;
 	VAO* modelVAO;
 	Light* light;
 

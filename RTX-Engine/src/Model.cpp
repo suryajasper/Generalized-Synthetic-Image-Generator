@@ -4,14 +4,11 @@ Model::Model()
 {
 	this->shader = new ShaderProgram();
 	this->shader->Initialize("resources/shaders/default.vert", "resources/shaders/default.frag");
-
-	this->uniformManager = new UniformManager(this->shader);
 }
 
 Model::~Model()
 {
 	delete shader;
-	delete uniformManager;
 	delete modelVAO;
 	delete mesh;
 	delete tex;
@@ -63,14 +60,14 @@ void Model::DispatchMatrices(Camera* camera)
 
 	glm::mat4x4 MPV = proj * view * model;
 
-	uniformManager->SetUniform("lightPosIn", UNIFORM_VEC3, &(light->position));
-	uniformManager->SetUniform("lightColorIn", UNIFORM_VEC3, &(light->color));
-	uniformManager->SetUniform("lightIntensityIn", UNIFORM_FLOAT, &(light->intensity));
+	shader->SetUniform("lightPosIn", UNIFORM_VEC3, &(light->position));
+	shader->SetUniform("lightColorIn", UNIFORM_VEC3, &(light->color));
+	shader->SetUniform("lightIntensityIn", UNIFORM_FLOAT, &(light->intensity));
 
-	uniformManager->SetUniform("proj", UNIFORM_MAT4X4, &proj);
-	uniformManager->SetUniform("view", UNIFORM_MAT4X4, &view);
-	uniformManager->SetUniform("model", UNIFORM_MAT4X4, &model);
-	uniformManager->SetUniform("MPV", UNIFORM_MAT4X4, &MPV);
+	shader->SetUniform("proj", UNIFORM_MAT4X4, &proj);
+	shader->SetUniform("view", UNIFORM_MAT4X4, &view);
+	shader->SetUniform("model", UNIFORM_MAT4X4, &model);
+	shader->SetUniform("MPV", UNIFORM_MAT4X4, &MPV);
 }
 
 void Model::CreateVAO()

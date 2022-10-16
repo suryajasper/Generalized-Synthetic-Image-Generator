@@ -18,7 +18,6 @@ public:
 
 private:
 	ShaderProgram* shaderProgram;
-	UniformManager* uniformManager;
 	Texture2D* texture;
 
 	std::vector<glm::vec3> vertices;
