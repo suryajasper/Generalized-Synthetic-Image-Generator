@@ -8,8 +8,8 @@ enum TextureMappingType {
 	TEX_MAP_COLOR,
 	TEX_MAP_NORMAL,
 	TEX_MAP_SPECULAR,
+	TEX_MAP_DIFFUSE,
 	TEX_MAP_ROUGHNESS,
-	TEX_MAP_METALLIC,
 };
 
 class Texture2D
