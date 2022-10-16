@@ -67,6 +67,9 @@ void Model::DispatchMatrices(Camera* camera)
 	uniformManager->SetUniform("lightColorIn", UNIFORM_VEC3, &(light->color));
 	uniformManager->SetUniform("lightIntensityIn", UNIFORM_FLOAT, &(light->intensity));
 
+	uniformManager->SetUniform("proj", UNIFORM_MAT4X4, &proj);
+	uniformManager->SetUniform("view", UNIFORM_MAT4X4, &view);
+	uniformManager->SetUniform("model", UNIFORM_MAT4X4, &model);
 	uniformManager->SetUniform("MPV", UNIFORM_MAT4X4, &MPV);
 }
 

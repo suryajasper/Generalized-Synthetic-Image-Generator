@@ -4,6 +4,8 @@ out vec4 FragColor;
 
 in vec3 fragPos;
 
+in mat4 projCam;
+
 in vec2 texCoord;
 in vec3 normal;
 
@@ -12,6 +14,17 @@ in vec3 lightColor;
 in float lightIntensity;
 
 uniform sampler2D tex0;
+
+struct Light {
+	float intensity;
+	vec3 color;
+};
+
+struct SpotLight {
+	Light super;
+
+	vec3 position;
+};
 
 void main()
 {

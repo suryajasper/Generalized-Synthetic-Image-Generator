@@ -54,7 +54,6 @@ void ShaderProgram::AttachShader(GLuint shaderId)
 void ShaderProgram::DeleteShader(GLuint shaderId)
 {
     glDeleteShader(shaderId);
-    shaders.erase(std::remove(shaders.begin(), shaders.end(), shaderId), shaders.end());
 }
 
 void ShaderProgram::BindProgram()

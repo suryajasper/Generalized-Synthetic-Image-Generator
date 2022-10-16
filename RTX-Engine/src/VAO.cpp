@@ -75,7 +75,7 @@ void VAO::LinkVertexAttribute(GLuint attribLoc, GLuint numComponents)
 	GLuint* bufferLoc = bufferLocs + numAttributes;
 
 	// assigning attribute information to vertex shader
-	glVertexAttribPointer(attribLoc, numComponents, GL_FLOAT, GL_FALSE, bufferStride, (void*)totalStride);
+	glVertexAttribPointer(attribLoc, numComponents, GL_FLOAT, GL_FALSE, bufferStride, (void*) (uintptr_t)totalStride);
 	glEnableVertexAttribArray(attribLoc);
 	
 	// unbinding vertex array and buffer objects

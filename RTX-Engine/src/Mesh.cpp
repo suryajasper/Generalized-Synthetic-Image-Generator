@@ -10,8 +10,6 @@ Mesh::~Mesh()
 	delete shaderProgram;
 	delete uniformManager;
 	delete texture;
-
-	delete[] attribs;
 }
 
 void Mesh::PrintMeshData()
@@ -86,6 +84,8 @@ void Mesh::LoadMeshDataFromFile(const char* fileName)
 
 	bool readFaces = false;
 
+	unsigned int i = 0;
+
 	char func[99]; GLfloat data[3];
 	while (!cin.eof()) {
 		cin >> func;
@@ -124,6 +124,8 @@ void Mesh::LoadMeshDataFromFile(const char* fileName)
 
 			AddFace(vis, tcis, nis);
 		}
+
+		i++;
 	}
 
 	cin.close();

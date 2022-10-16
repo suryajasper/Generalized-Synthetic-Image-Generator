@@ -6,6 +6,8 @@ layout (location = 2) in vec3 aNorm;
 
 out vec3 fragPos;
 
+out mat4 projCam;
+
 out vec2 texCoord;
 out vec3 normal;
 
@@ -15,6 +17,9 @@ out float lightIntensity;
 
 uniform float scale;
 uniform mat4 MPV;
+uniform mat4 proj;
+uniform mat4 view;
+uniform mat4 model;
 
 uniform vec3 lightPosIn;
 uniform vec3 lightColorIn;
@@ -24,7 +29,9 @@ void main()
 {
 	gl_Position = MPV * vec4(aPos, 1.0);
 
-	fragPos = vec3(gl_Position);
+	fragPos = vec3(model * vec4(aPos, 1.0));
+
+	projCam = proj;
 
 	texCoord = aTexCoord;
 	normal = aNorm;
