@@ -28,10 +28,15 @@ void Scene::SetLight(Light* light)
         sceneObj->SetLight(light);
 }
 
-void Scene::AddSceneObject(Model* sceneObj)
+void Scene::AddSceneObject(std::string name, Model* sceneObj)
 {
     sceneObj->SetLight(light);
-	sceneObjects.push_back(sceneObj);
+    sceneObjects.push_back(sceneObj);
+}
+
+void Scene::AddSceneObject(Model* sceneObj)
+{
+    AddSceneObject("Untitled " + std::to_string(sceneObjects.size()), sceneObj);
 }
 
 void Scene::Render()

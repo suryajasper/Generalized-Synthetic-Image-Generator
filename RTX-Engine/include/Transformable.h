@@ -13,6 +13,7 @@ public:
 	void Translate(glm::vec3 deltaPos);
 
 	void SetPosition(GLfloat x, GLfloat y, GLfloat z);
+	void SetPosition(glm::vec3 position);
 	void SetRotation(GLfloat x, GLfloat y, GLfloat z);
 	void SetScale(GLfloat scale);
 

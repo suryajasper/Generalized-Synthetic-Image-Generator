@@ -3,6 +3,7 @@
 #include "Model.h"
 #include "Light.h"
 #include <vector>
+#include <string>
 
 class Scene
 {
@@ -12,7 +13,10 @@ public:
 
 	void SetCamera(Camera* camera);
 	void SetLight(Light* light);
+
+	void AddSceneObject(std::string name, Model* sceneObj);
 	void AddSceneObject(Model* sceneObj);
+
 	void Render();
 private:
 	GLFWwindow* window;

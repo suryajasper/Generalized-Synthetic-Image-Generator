@@ -28,7 +28,7 @@ struct SpotLight {
 
 void main()
 {
-	vec3 ambient = 0.4 * vec3(205, 176, 235) / 255;
+	vec3 ambient = 0.8 * vec3(205, 176, 235) / 255;
 
 	vec3 norm = normalize(normal);
 	vec3 lightDir = normalize(lightPos - fragPos);

@@ -17,7 +17,8 @@ Model::~Model()
 void Model::LoadMesh(const char* fileName)
 {
 	mesh = new Mesh(fileName);
-
+	mesh->ShadeSmooth();
+	
 	CreateVAO();
 }
 
@@ -72,6 +73,8 @@ void Model::DispatchMatrices(Camera* camera)
 
 void Model::CreateVAO()
 {
+	std::cout << "creating VAO" << std::endl;
+
 	shader->BindProgram();
 
 	GLuint* indices = new GLuint[mesh->numVerts];

@@ -23,6 +23,21 @@ void Mesh::PrintMeshData()
 	}
 }
 
+void Mesh::ShadeSmooth()
+{
+	unsigned int i;
+
+	for (i = 0; i < numUniqueVerts; i++)
+		meshVerts[i].average();
+
+	for (i = 0; i < numVerts; i++) {
+		glm::vec3 norm = meshVerts[objToLoc[numVerts]].normSum;
+		attribs[i * 8 + 5] = norm.x;
+		attribs[i * 8 + 6] = norm.y;
+		attribs[i * 8 + 7] = norm.z;
+	}
+}
+
 void Mesh::AddVertex(GLfloat x, GLfloat y, GLfloat z)
 {
 	vertices.push_back(glm::vec3(x, y, z));
@@ -47,9 +62,13 @@ void Mesh::AddFace(unsigned int faceVerts[3], unsigned int faceTexCoords[3], uns
 			<< "\t" << normals.size() << "-" << faceNorms[i] - 1
 			<< std::endl;
 
-		glm::vec3 vert = vertices[faceVerts[i]-1];
+		unsigned int vertInd = faceVerts[i]-1;
+
+		glm::vec3 vert = vertices[vertInd];
 		glm::vec2 texCoord = texCoords[faceTexCoords[i]-1];
 		glm::vec3 norm = normals[faceNorms[i]-1];
+
+		meshVerts[vertInd].addNorm(norm);
 
 		if (DEBUG_MODE) {
 			std::cout << "vertex" << "\t" << vert.x << "\t" << vert.y << "\t" << vert.z << std::endl;
@@ -58,10 +77,19 @@ void Mesh::AddFace(unsigned int faceVerts[3], unsigned int faceTexCoords[3], uns
 			std::cout << "----------------------------" << std::endl;
 		}
 
-		attribs[numVerts * 8 + 0] = vert.x; attribs[numVerts * 8 + 1] = vert.y; attribs[numVerts * 8 + 2] = vert.z;
-		attribs[numVerts * 8 + 3 + 0] = texCoord.x; attribs[numVerts * 8 + 3 + 1] = texCoord.y;
-		attribs[numVerts * 8 + 5 + 0] = norm.x; attribs[numVerts * 8 + 5 + 1] = norm.y; attribs[numVerts * 8 + 5 + 2] = norm.z;
-		
+		attribs[numVerts * 8 + 0 + 0] = vert.x; 
+		attribs[numVerts * 8 + 0 + 1] = vert.y; 
+		attribs[numVerts * 8 + 0 + 2] = vert.z;
+
+		attribs[numVerts * 8 + 3 + 0] = texCoord.x; 
+		attribs[numVerts * 8 + 3 + 1] = texCoord.y;
+
+		attribs[numVerts * 8 + 5 + 0] = norm.x; 
+		attribs[numVerts * 8 + 5 + 1] = norm.y; 
+		attribs[numVerts * 8 + 5 + 2] = norm.z;
+
+		objToLoc[numVerts] = vertInd;
+
 		numVerts++;
 	}
 }
@@ -127,10 +155,16 @@ void Mesh::LoadMeshDataFromFile(const char* fileName)
 		i++;
 	}
 
+	numUniqueVerts = vertices.size();
+
 	cin.close();
 
 	vertices.clear();
 	normals.clear();
 	texCoords.clear();
+
+	//for (auto loc = vertToNormLocs.begin(); loc != vertToNormLocs.end(); loc++)
+	//	delete loc->second;
+	vertToNormLocs.clear();
 }
 

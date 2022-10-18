@@ -9,7 +9,7 @@
 #include "ShaderProgram.h"
 #include "Transformable.h"
 
-class Camera : Transformable
+class Camera : public Transformable
 {
 public:
 	GLFWwindow* window;
