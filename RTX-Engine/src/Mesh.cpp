@@ -23,18 +23,26 @@ void Mesh::PrintMeshData()
 	}
 }
 
-void Mesh::ShadeSmooth()
+void Mesh::ShadeSmooth(GLfloat factor, GLfloat maxAngle)
 {
+	factor = glm::clamp(factor, 1.0f, 10.0f);
+
 	unsigned int i;
 
 	for (i = 0; i < numUniqueVerts; i++)
 		meshVerts[i].average();
 
 	for (i = 0; i < numVerts; i++) {
-		glm::vec3 norm = meshVerts[objToLoc[numVerts]].normSum;
-		attribs[i * 8 + 5] = norm.x;
-		attribs[i * 8 + 6] = norm.y;
-		attribs[i * 8 + 7] = norm.z;
+		unsigned int normLoc = i * 8 + 5;
+
+		glm::vec3 vecNorm = glm::vec3(attribs[normLoc], attribs[normLoc+1], attribs[normLoc+2]);
+		glm::vec3 avgNorm = meshVerts[objToLoc[numVerts]].normSum;
+		
+		glm::vec3 norm = vecNorm + (avgNorm - vecNorm) / factor;
+
+		attribs[normLoc+0] = norm.x;
+		attribs[normLoc+1] = norm.y;
+		attribs[normLoc+2] = norm.z;
 	}
 }
 
@@ -163,8 +171,5 @@ void Mesh::LoadMeshDataFromFile(const char* fileName)
 	normals.clear();
 	texCoords.clear();
 
-	//for (auto loc = vertToNormLocs.begin(); loc != vertToNormLocs.end(); loc++)
-	//	delete loc->second;
-	vertToNormLocs.clear();
 }
 

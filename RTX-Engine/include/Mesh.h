@@ -34,7 +34,7 @@ public:
 	~Mesh();
 
 	void PrintMeshData();
-	void ShadeSmooth();
+	void ShadeSmooth(GLfloat factor, GLfloat maxAngle);
 
 	unsigned int numVerts = 0;
 	unsigned int numUniqueVerts = 0;
@@ -46,10 +46,6 @@ public:
 private:
 	ShaderProgram* shaderProgram;
 	Texture2D* texture;
-
-	std::hash<glm::vec3> hashVec3;
-
-	std::map<hash, std::vector<unsigned int>> vertToNormLocs;
 
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec2> texCoords;

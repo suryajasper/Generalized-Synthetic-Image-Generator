@@ -61,7 +61,7 @@ int main(void)
     */
 
     Model* car = new Model();
-    car->LoadMesh("resources/models/low-res-sphere.obj");
+    car->LoadMesh("resources/models/car.obj");
     car->LinkTexture("resources/images/bricktex.jpg");
     scene->AddSceneObject(car);
 

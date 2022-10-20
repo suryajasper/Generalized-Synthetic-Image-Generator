@@ -17,7 +17,7 @@ Model::~Model()
 void Model::LoadMesh(const char* fileName)
 {
 	mesh = new Mesh(fileName);
-	mesh->ShadeSmooth();
+	mesh->ShadeSmooth(1.5f, 45.0f);
 	
 	CreateVAO();
 }

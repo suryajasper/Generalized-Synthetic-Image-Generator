@@ -28,7 +28,7 @@ struct SpotLight {
 
 void main()
 {
-	vec3 ambient = 0.8 * vec3(205, 176, 235) / 255;
+	vec3 ambient = 0.6 * vec3(205, 176, 235) / 255;
 
 	vec3 norm = normalize(normal);
 	vec3 lightDir = normalize(lightPos - fragPos);
@@ -38,5 +38,8 @@ void main()
 
 	vec4 lighting = vec4(diffuse + ambient, 1.0);
 
-	FragColor = texture2D(tex0, texCoord) * lighting;
+	vec4 color = vec4(0.5, 0.5, 0.5, 1.0);
+
+	FragColor = color * lighting;
+	// FragColor = texture2D(tex0, texCoord) * lighting;
 }
