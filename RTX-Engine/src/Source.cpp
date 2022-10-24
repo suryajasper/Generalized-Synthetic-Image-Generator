@@ -48,21 +48,9 @@ int main(void)
     scene->SetCamera(camera);
     scene->SetLight(diffuseLight);
 
-    /*
-    Model* monkey = new Model();
-    monkey->LoadMesh("resources/models/monkey.obj");
-    monkey->LinkTexture("resources/images/bricktex.jpg");
-    scene->AddSceneObject(monkey);
-
-    Model* cube = new Model();
-    cube->LoadMesh("resources/models/cube.obj");
-    cube->LinkTexture("resources/images/Clay-Bricks-1.png");
-    scene->AddSceneObject(cube);
-    */
-
     Model* car = new Model();
     car->LoadMesh("resources/models/car.obj");
-    car->LinkTexture("resources/images/bricktex.jpg");
+    car->LinkTexture("resources/images/car-tex.jpg");
     scene->AddSceneObject(car);
 
     float prevTime = glfwGetTime();
@@ -75,18 +63,9 @@ int main(void)
         if (deltaTime > (float)1/100) {
 
             camera->Update(deltaTime);
-            
-            /*
-            cube->SetPosition(-1, 0, 0);
-            cube->Rotate(glm::vec3(1, 1, 0) * deltaTime);
-
-            monkey->SetPosition(1, 0, 0);
-            monkey->Rotate(glm::vec3(1, 1, 0) * -deltaTime);
-            monkey->SetScale(glm::abs(glm::sin(glfwGetTime())));
-            */
 
             car->Rotate(glm::vec3(0, 1, 0) * deltaTime);
-            diffuseLight->SetPosition(camera->position);
+            // diffuseLight->SetPosition(camera->position);
 
             scene->Render();
 

@@ -40,6 +40,6 @@ void main()
 
 	vec4 color = vec4(0.5, 0.5, 0.5, 1.0);
 
-	FragColor = color * lighting;
-	// FragColor = texture2D(tex0, texCoord) * lighting;
+	// FragColor = color * lighting;
+	FragColor = texture2D(tex0, texCoord) * lighting;
 }

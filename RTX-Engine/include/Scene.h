@@ -2,8 +2,13 @@
 #include "Camera.h"
 #include "Model.h"
 #include "Light.h"
+#include "UIManager.h"
+
+#include <map>
 #include <vector>
 #include <string>
+
+class UIManager;
 
 class Scene
 {
@@ -20,9 +25,11 @@ public:
 	void Render();
 private:
 	GLFWwindow* window;
+	UIManager* ui;
 	Camera* camera;
 	Light* light;
 
-	std::vector<Model*> sceneObjects;
+	std::vector<std::pair<std::string, GuiSerializable*> > sceneObjects;
+	std::vector<Model*> models;
 };
 

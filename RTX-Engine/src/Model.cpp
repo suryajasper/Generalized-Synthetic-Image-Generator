@@ -4,6 +4,12 @@ Model::Model()
 {
 	this->shader = new ShaderProgram();
 	this->shader->Initialize("resources/shaders/default.vert", "resources/shaders/default.frag");
+
+	this->camera = nullptr;
+	this->light = nullptr;
+	this->mesh = nullptr;
+	this->modelVAO = nullptr;
+	this->tex = nullptr;
 }
 
 Model::~Model()

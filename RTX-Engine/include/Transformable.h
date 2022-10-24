@@ -3,11 +3,13 @@
 #include <glm/gtc/quaternion.hpp>
 #include <GLFW/glfw3.h>
 
-class Transformable
+#include "GuiSerializable.h"
+
+class Transformable : public GuiSerializable
 {
 public:
 	Transformable();
-	~Transformable();
+	virtual ~Transformable();
 
 	void Rotate(glm::vec3 eulerAngles);
 	void Translate(glm::vec3 deltaPos);
@@ -20,5 +22,8 @@ public:
 	glm::vec3 position;
 	glm::vec3 rotation;
 	GLfloat scale;
+
+private:
+	void Serialize();
 };
 

@@ -5,6 +5,8 @@ Transformable::Transformable()
 	this->position = glm::vec3(0.0f);
 	this->scale = 1.0f;
 	this->rotation = glm::vec3(0.0f);
+
+	Serialize();
 }
 
 Transformable::~Transformable()
@@ -41,4 +43,11 @@ void Transformable::SetRotation(GLfloat x, GLfloat y, GLfloat z)
 void Transformable::SetScale(GLfloat scale)
 {
 	this->scale = scale;
+}
+
+void Transformable::Serialize()
+{
+	SerializeFloat1("Scale", &scale);
+	SerializeFloat3("Position", &position);
+	SerializeFloat3("Rotation", &rotation);
 }

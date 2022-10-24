@@ -9,6 +9,7 @@ public:
 	Light(GLfloat intensity, glm::vec3 color);
 	Light();
 
+	void Serialize();
 	void SetIntensity(GLfloat intensity);
 	void SetColor(GLfloat r, GLfloat g, GLfloat b);
 
