@@ -58,6 +58,7 @@ int main(void)
     scene->AddSceneObject(car);
 
     float prevTime = glfwGetTime();
+    float total = 0;
 
     while (!glfwWindowShouldClose(window))
     {
@@ -65,8 +66,37 @@ int main(void)
         float deltaTime = currTime - prevTime;
 
         if (deltaTime > (float)1/100) {
+            Transformable* transform = camera->transform;
 
-            // camera->Update(deltaTime);
+            glm::vec3 upVec = { 0, 1, 0 };
+
+            float rotSpeed = 1.0f;
+            float speed = 20.0f;
+
+            if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+                transform->rotation.y += rotSpeed * deltaTime;
+            if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+                transform->rotation.y += -rotSpeed * deltaTime;
+            if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+                transform->rotation.x += rotSpeed * deltaTime;
+            if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+                transform->rotation.x += -rotSpeed * deltaTime;
+
+            if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+                transform->Translate(speed * deltaTime * transform->rotation);
+            if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+                transform->Translate(-speed * deltaTime * transform->rotation);
+            if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+                transform->Translate(speed * deltaTime * glm::normalize(glm::cross(transform->rotation, upVec)));
+            if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+                transform->Translate(speed * deltaTime * -glm::normalize(glm::cross(transform->rotation, upVec)));
+
+            if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+                transform->Translate(speed * deltaTime * upVec);
+            if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+                transform->Translate(-speed * deltaTime * upVec);
+
+            total += deltaTime;
 
             car->transform->Rotate(glm::vec3(0, 1, 0) * deltaTime);
             // diffuseLight->SetPosition(camera->position);

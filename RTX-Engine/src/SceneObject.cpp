@@ -8,6 +8,7 @@ SceneObject::SceneObject(std::string name)
 	sceneObjectCount++;
 
 	Transformable* transform = new Transformable();
+	transform->InitializeComponent();
 	this->components.push_back(transform);
 	this->transform = transform;
 	
