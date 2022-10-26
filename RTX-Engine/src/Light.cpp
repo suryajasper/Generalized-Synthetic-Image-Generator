@@ -1,17 +1,11 @@
 #include "Light.h"
 
-Light::Light(GLfloat intensity, glm::vec3 color)
-{
-	this->intensity = intensity;
-	this->color = color;
-
-	Serialize();
-}
-
-Light::Light()
+void Light::InitializeComponent()
 {
 	this->intensity = 1.0f;
 	this->color = glm::vec3(235, 225, 178) / 255.0f;
+
+	Serialize();
 }
 
 void Light::Serialize()

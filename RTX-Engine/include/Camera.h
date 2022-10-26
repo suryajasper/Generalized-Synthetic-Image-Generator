@@ -2,23 +2,21 @@
 #include <string>
 #include <vector>
 #include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
+#include "SceneObject.h"
 #include "ShaderProgram.h"
 #include "Transformable.h"
+#include "Component.h"
 
-class Camera : public Transformable
+class Camera : public Component, public GuiSerializable
 {
 public:
-	GLFWwindow* window;
-
-	Camera(GLFWwindow* window);
-	~Camera();
-
+	void InitializeComponent() override;
+	void Serialize() override;
+	
 	void ViewProjMatrices(glm::mat4& view, glm::mat4& proj);
-	void Update(float deltaTime);
 
 	void SetAspectRatio(GLfloat aspectRatio);
 	void SetFOV(GLfloat fov);
@@ -28,6 +26,8 @@ public:
 	void Deactivate();
 
 private:
+	Transformable* transform;
+
 	GLfloat aspectRatio = 1.0f;
 	GLfloat fov = 45.0f;
 	GLfloat minDist = 0.1f, maxDist = 100.0f;
