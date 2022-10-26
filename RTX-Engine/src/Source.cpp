@@ -1,5 +1,6 @@
 #include "Model.h"
 #include "Camera.h"
+#include "SceneObject.h"
 #include "Scene.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -36,21 +37,24 @@ int main(void)
     GLuint width = 1200, height = 800;
     GLFWwindow* window = CreateWindow("Generalized Synthetic Image Generator", width, height);
 
-    Camera* camera = new Camera(window);
-    camera->SetAspectRatio((GLfloat)width / height);
+    SceneObject* camera = new SceneObject("Camera");
+    Camera* camComp = camera->AddComponent<Camera>();
+    camComp->SetAspectRatio((GLfloat)width / height);
 
-    Light* diffuseLight = new Light();
-    diffuseLight->SetPosition(1.0f, 1.5f, 2.0f);
-    diffuseLight->SetIntensity(1.4f);
-    diffuseLight->SetColor(150 / 255.0f, 108 / 255.0f, 224 / 255.0f);
+    SceneObject* diffuseLight = new SceneObject("Diffuse Light");
+    diffuseLight->transform->SetPosition(1.0f, 1.5f, 2.0f);
+    Light* lightComp = diffuseLight->AddComponent<Light>();
+    lightComp->SetIntensity(1.4f);
+    lightComp->SetColor(150 / 255.0f, 108 / 255.0f, 224 / 255.0f);
 
     Scene* scene = new Scene(window);
     scene->SetCamera(camera);
     scene->SetLight(diffuseLight);
 
-    Model* car = new Model();
-    car->LoadMesh("resources/models/car.obj");
-    car->LinkTexture("resources/images/car-tex.jpg");
+    SceneObject* car = new SceneObject("Car");
+    Model* carModel = car->AddComponent<Model>();
+    carModel->LoadMesh("resources/models/car.obj");
+    carModel->LinkTexture("resources/images/car-tex.jpg");
     scene->AddSceneObject(car);
 
     float prevTime = glfwGetTime();
@@ -62,9 +66,9 @@ int main(void)
 
         if (deltaTime > (float)1/100) {
 
-            camera->Update(deltaTime);
+            // camera->Update(deltaTime);
 
-            car->Rotate(glm::vec3(0, 1, 0) * deltaTime);
+            car->transform->Rotate(glm::vec3(0, 1, 0) * deltaTime);
             // diffuseLight->SetPosition(camera->position);
 
             scene->Render();

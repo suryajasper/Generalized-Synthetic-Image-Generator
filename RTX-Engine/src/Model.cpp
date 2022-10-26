@@ -56,18 +56,20 @@ void Model::DispatchMatrices(Camera* camera)
 {
 	glm::mat4x4 view, proj, model;
 
+	Transformable* transform = this->sceneObject->transform;
+
 	model = glm::mat4x4(1.0f);
-	model = glm::translate(model, position);
-	model = glm::rotate(model, rotation.x, {1, 0, 0});
-	model = glm::rotate(model, rotation.y, {0, 1, 0});
-	model = glm::rotate(model, rotation.z, {0, 0, 1});
-	model = glm::scale(model, glm::vec3(scale));
+	model = glm::translate(model, transform->position);
+	model = glm::rotate(model, transform->rotation.x, {1, 0, 0});
+	model = glm::rotate(model, transform->rotation.y, {0, 1, 0});
+	model = glm::rotate(model, transform->rotation.z, {0, 0, 1});
+	model = glm::scale(model, glm::vec3(transform->scale));
 
 	camera->ViewProjMatrices(view, proj);
 
 	glm::mat4x4 MPV = proj * view * model;
 
-	shader->SetUniform("lightPosIn", UNIFORM_VEC3, &(light->position));
+	shader->SetUniform("lightPosIn", UNIFORM_VEC3, &(light->sceneObject->transform->position));
 	shader->SetUniform("lightColorIn", UNIFORM_VEC3, &(light->color));
 	shader->SetUniform("lightIntensityIn", UNIFORM_FLOAT, &(light->intensity));
 

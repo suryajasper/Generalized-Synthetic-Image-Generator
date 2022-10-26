@@ -111,6 +111,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Users\surya\OneDrive\Documents\libraries\glfw-3.3.8.bin.WIN64\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -130,11 +132,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Users\surya\OneDrive\Documents\libraries\glfw-3.3.8.bin.WIN64\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\libraries\glad\src\glad.c" />
-    <ClCompile Include="src\GuiSerializable.cpp" />
     <ClCompile Include="libraries\include\imgui\imgui.cpp" />
     <ClCompile Include="libraries\include\imgui\imgui_demo.cpp" />
     <ClCompile Include="libraries\include\imgui\imgui_draw.cpp" />
@@ -142,6 +145,9 @@
     <ClCompile Include="libraries\include\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="libraries\include\imgui\imgui_tables.cpp" />
     <ClCompile Include="libraries\include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\GuiSerializable.cpp" />
+    <ClCompile Include="src\SceneObject.cpp" />
+    <ClCompile Include="src\Component.cpp" />
     <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Light.cpp" />
     <ClCompile Include="src\Scene.cpp" />
@@ -164,6 +170,8 @@
     <ClInclude Include="..\..\..\..\..\Downloads\stb_image.h" />
     <ClInclude Include="..\..\..\..\..\Downloads\stb_image_resize.h" />
     <ClInclude Include="include\GuiSerializable.h" />
+    <ClInclude Include="include\SceneObject.h" />
+    <ClInclude Include="include\Component.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\ShaderProgram.h" />
     <ClInclude Include="include\UIManager.h" />

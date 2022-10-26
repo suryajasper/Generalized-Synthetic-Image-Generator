@@ -1,11 +1,13 @@
 #pragma once
-#include "Camera.h"
 #include "Model.h"
+#include "Camera.h"
 #include "Light.h"
+#include "SceneObject.h"
 #include "UIManager.h"
 
 #include <map>
 #include <vector>
+#include <queue>
 #include <string>
 
 class UIManager;
@@ -16,11 +18,12 @@ public:
 	Scene(GLFWwindow* window);
 	~Scene();
 
-	void SetCamera(Camera* camera);
-	void SetLight(Light* light);
+	void GetRenderables(SceneObject* root, std::vector<Model*>& modelsOut);
+	void GetRenderables(std::vector<Model*>& modelsOut);
 
-	void AddSceneObject(std::string name, Model* sceneObj);
-	void AddSceneObject(Model* sceneObj);
+	void SetCamera(SceneObject* camera);
+	void SetLight(SceneObject* light);
+	void AddSceneObject(SceneObject* sceneObj);
 
 	void Render();
 private:
@@ -29,7 +32,6 @@ private:
 	Camera* camera;
 	Light* light;
 
-	std::vector<std::pair<std::string, GuiSerializable*> > sceneObjects;
-	std::vector<Model*> models;
+	std::vector<SceneObject*> sceneObjects;
 };
 

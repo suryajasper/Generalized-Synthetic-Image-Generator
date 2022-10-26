@@ -11,7 +11,7 @@ Scene::Scene(GLFWwindow* window)
 
 Scene::~Scene() 
 {
-    for (Model* sceneObj : models)
+    for (SceneObject* sceneObj : sceneObjects)
         delete sceneObj;
 
     delete ui;
@@ -19,36 +19,62 @@ Scene::~Scene()
     delete camera;
 }
 
-void Scene::SetCamera(Camera* camera)
+void Scene::GetRenderables(SceneObject* root, std::vector<Model*>& modelsOut)
 {
-	this->camera = camera;
-    sceneObjects.push_back(std::make_pair("Camera", camera));
+    std::vector<SceneObject*> children;
+
+    if (root == nullptr) 
+        children = sceneObjects;
+    else {
+        children = root->children;
+
+        Model* pModel = root->GetComponent<Model>();
+        if (pModel != nullptr)
+            modelsOut.push_back(pModel);
+    }
+
+    if (!children.empty())
+        for (SceneObject* sceneObj : children)
+            GetRenderables(sceneObj, modelsOut);
 }
 
-void Scene::SetLight(Light* light)
+void Scene::GetRenderables(std::vector<Model*>& modelsOut)
 {
-    this->light = light;
-
-    for (Model* sceneObj : models)
-        sceneObj->SetLight(light);
-
-    sceneObjects.push_back(std::make_pair("Light", light));
+    GetRenderables(nullptr, modelsOut);
 }
 
-void Scene::AddSceneObject(std::string name, Model* sceneObj)
+void Scene::SetCamera(SceneObject* camera)
 {
-    sceneObj->SetLight(light);
-    models.push_back(sceneObj);
-    sceneObjects.push_back(std::make_pair(name, sceneObj));
-
-    for (SceneObject s : sceneObjects) {
-        std::cout << s.first << " " << s.second << std::endl;
+    Camera* camComp = camera->GetComponent<Camera>();
+    if (camComp != nullptr) {
+	    this->camera = camComp;
+        sceneObjects.push_back(camera);
     }
 }
 
-void Scene::AddSceneObject(Model* sceneObj)
+void Scene::SetLight(SceneObject* light)
 {
-    AddSceneObject("Untitled " + std::to_string(models.size()), sceneObj);
+    Light* lightComp = light->GetComponent<Light>();
+    if (lightComp != nullptr) {
+        this->light = lightComp;
+
+        std::vector<Model*> models; 
+        GetRenderables(models);
+        for (Model* model : models)
+            model->SetLight(lightComp);
+
+        sceneObjects.push_back(light);
+    }
+}
+
+void Scene::AddSceneObject(SceneObject* sceneObj)
+{
+    std::vector<Model*> models;
+    GetRenderables(sceneObj, models);
+    for (Model* model : models)
+        model->SetLight(light);
+
+    sceneObjects.push_back(sceneObj);
 }
 
 void Scene::Render()
@@ -57,10 +83,21 @@ void Scene::Render()
     glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
 
-    for (Model* sceneObj : models)
-        sceneObj->Draw(camera);
+    std::queue<SceneObject*> renderQueue; 
+    for (auto iter : sceneObjects) renderQueue.push(iter);
 
-    ui->DisplaySceneObjectControls(&sceneObjects);
+    while (!renderQueue.empty()) {
+        SceneObject* sceneObj = renderQueue.front();
+        renderQueue.pop();
+
+        Model* pModel = sceneObj->GetComponent<Model>();
+        if (pModel != nullptr)
+            pModel->Draw(camera);
+
+        for (auto iter : sceneObj->children) renderQueue.push(iter);
+    }
+
+    // ui->DisplaySceneObjectControls(&sceneObjects);
 
     glfwSwapBuffers(window);
 }

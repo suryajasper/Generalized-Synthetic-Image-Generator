@@ -1,5 +1,4 @@
 #pragma once
-//#include "stb_image_resize.h"
 #include <iostream>
 #include <glad/glad.h>
 #include "ShaderProgram.h"
