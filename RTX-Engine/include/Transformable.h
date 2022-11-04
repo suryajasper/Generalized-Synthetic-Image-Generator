@@ -1,15 +1,17 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
-#include <GLFW/glfw3.h>
 
 #include "GuiSerializable.h"
 
-class Transformable : public GuiSerializable
+class Component;
+#include "Component.h"
+
+class Transformable : public Component, public GuiSerializable
 {
 public:
-	Transformable();
-	virtual ~Transformable();
+	void InitializeComponent() override;
+	void Serialize() override;
 
 	void Rotate(glm::vec3 eulerAngles);
 	void Translate(glm::vec3 deltaPos);
@@ -23,7 +25,5 @@ public:
 	glm::vec3 rotation;
 	GLfloat scale;
 
-private:
-	void Serialize();
 };
 

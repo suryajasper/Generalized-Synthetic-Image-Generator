@@ -12,7 +12,7 @@ UIManager::~UIManager()
     ImGui::DestroyContext();
 }
 
-void UIManager::DisplaySceneObjectControls(std::vector<SceneObject>* transforms)
+void UIManager::DisplaySceneObjectControls(std::vector<SceneObjectLegacy>* transforms)
 {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
@@ -22,7 +22,7 @@ void UIManager::DisplaySceneObjectControls(std::vector<SceneObject>* transforms)
 
     ImGui::Begin("My First Tool", &my_tool_active, ImGuiWindowFlags_MenuBar);
 
-    for (SceneObject obj : *transforms) {
+    for (SceneObjectLegacy obj : *transforms) {
         std::string name = obj.first;
         GuiSerializable* info = obj.second;
 
@@ -47,40 +47,6 @@ void UIManager::DisplaySceneObjectControls(std::vector<SceneObject>* transforms)
                 field.second->x = arr3[0]; field.second->y = arr3[1]; field.second->z = arr3[2];
             }
         }
-        
-        /*
-        
-        Transformable* transform = obj.second;
-
-        if (ImGui::CollapsingHeader(name.c_str())) {
-            GLfloat pos[3], rot[3], scale;
-
-            cpyVecToArr(&(transform->position), pos);
-            cpyVecToArr(&(transform->rotation), rot);
-            scale = transform->scale;
-
-            ImGui::DragFloat3("Position", pos, 0.05f);
-            ImGui::DragFloat3("Rotation", rot, 0.05f);
-            ImGui::DragFloat("Scale", &scale, 0.01f, 10.0f);
-
-            if (instanceof<Light>(transform)) {
-                GLfloat color[3], intensity;
-
-                Light* light = ((Light*)transform);
-
-                cpyVecToArr(&(light->color), color);
-                ImGui::ColorEdit3("Color", color);
-                light->SetColor(color[0], color[1], color[2]);
-
-
-            }
-
-            transform->SetPosition(pos[0], pos[1], pos[2]);
-            transform->SetRotation(rot[0], rot[1], rot[2]);
-            transform->SetScale(scale);
-        }
-
-        */
     }
 
 

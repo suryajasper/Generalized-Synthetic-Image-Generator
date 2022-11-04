@@ -2,14 +2,14 @@
 #include "glad/glad.h"
 #include <glm/glm.hpp>
 #include "Transformable.h"
+#include "GuiSerializable.h"
 
-class Light : public Transformable
+class Light : public Component, public GuiSerializable
 {
 public:
-	Light(GLfloat intensity, glm::vec3 color);
-	Light();
+	void InitializeComponent() override;
+	void Serialize() override;
 
-	void Serialize();
 	void SetIntensity(GLfloat intensity);
 	void SetColor(GLfloat r, GLfloat g, GLfloat b);
 

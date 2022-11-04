@@ -1,15 +1,19 @@
 #include "Camera.h"
 
-Camera::Camera(GLFWwindow* window)
+void Camera::InitializeComponent()
 {
-	SetPosition(0.0f, 0.0f,  2.0f);
-	SetRotation(0.0f, 0.0f, -1.0f);
+	transform = sceneObject->transform;
 
-	this->window = window;
+	transform->SetPosition(0.0f, 0.0f,  2.0f);
+	transform->SetRotation(0.0f, 0.0f, -1.0f);
+
+	Serialize();
 }
 
-Camera::~Camera()
+void Camera::Serialize()
 {
+	SerializeFloat1("FOV", &fov);
+	SerializeFloat1("Sensitivity", &speed);
 }
 
 void Camera::ViewProjMatrices(glm::mat4& view, glm::mat4& proj)
@@ -17,10 +21,11 @@ void Camera::ViewProjMatrices(glm::mat4& view, glm::mat4& proj)
 	view = glm::mat4x4(1.0f);
 	proj = glm::mat4x4(1.0f);
 
-	view = glm::lookAt(position, position + rotation, {0, 1, 0});
+	view = glm::lookAt(transform->position, transform->position + transform->rotation, { 0, 1, 0 });
 	proj = glm::perspective(glm::radians(fov), aspectRatio, minDist, maxDist);
 }
 
+/*
 void Camera::Update(float deltaTime)
 {
 	static float total = 0;
@@ -30,30 +35,31 @@ void Camera::Update(float deltaTime)
 	float rotSpeed = 1.0f;
 
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		rotation.y += rotSpeed * deltaTime;
+		transform->rotation.y += rotSpeed * deltaTime;
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		rotation.y += -rotSpeed * deltaTime;
+		transform->rotation.y += -rotSpeed * deltaTime;
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		rotation.x += rotSpeed * deltaTime;
+		transform->rotation.x += rotSpeed * deltaTime;
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		rotation.x += -rotSpeed * deltaTime;
+		transform->rotation.x += -rotSpeed * deltaTime;
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		Translate(  speed * deltaTime * rotation );
+		transform->Translate(speed * deltaTime * transform->rotation);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		Translate( -speed * deltaTime * rotation );
+		transform->Translate(-speed * deltaTime * transform->rotation);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		Translate(  speed * deltaTime *  glm::normalize(glm::cross(rotation, upVec)) );
+		transform->Translate(speed * deltaTime * glm::normalize(glm::cross(transform->rotation, upVec)));
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		Translate(  speed * deltaTime * -glm::normalize(glm::cross(rotation, upVec)) );
+		transform->Translate(speed * deltaTime * -glm::normalize(glm::cross(transform->rotation, upVec)));
 
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-		Translate(  speed * deltaTime * upVec );
+		transform->Translate(speed * deltaTime * upVec);
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-		Translate( -speed * deltaTime * upVec );
+		transform->Translate( -speed * deltaTime * upVec );
 
 	total += deltaTime;
 }
+*/
 
 void Camera::SetAspectRatio(GLfloat aspectRatio)
 {

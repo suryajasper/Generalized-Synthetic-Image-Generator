@@ -20,6 +20,10 @@ GuiSerialized<GLfloat>* GuiSerializable::GetFloat1s()
     return &float1s;
 }
 
+void GuiSerializable::Serialize()
+{
+}
+
 GuiSerialized<glm::vec2>* GuiSerializable::GetFloat2s()
 {
     return &float2s;

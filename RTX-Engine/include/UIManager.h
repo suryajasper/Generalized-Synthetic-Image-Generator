@@ -1,21 +1,17 @@
 #pragma once
 
-#include "imgui.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
 
 #include <stdio.h>
 
 #include "Scene.h"
+#include "SceneObject.h"
 #include "Transformable.h"
 #include "GuiSerializable.h"
 
-typedef std::pair<std::string, GuiSerializable*> SceneObject;
-
-template<typename Base, typename T>
-inline bool instanceof(const T* ptr) {
-	return dynamic_cast<const Base*>(ptr) != nullptr;
-}
+typedef std::pair<std::string, GuiSerializable*> SceneObjectLegacy;
 
 class UIManager
 {
@@ -23,7 +19,7 @@ public:
 	UIManager(GLFWwindow* window);
 	~UIManager();
 
-	void DisplaySceneObjectControls(std::vector<SceneObject>* sceneObjects);
+	void DisplaySceneObjectControls(std::vector<SceneObjectLegacy>* sceneObjects);
 
 private:
 	void cpyVec2ToArr(glm::vec2* vec, GLfloat arr[2]);

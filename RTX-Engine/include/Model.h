@@ -1,13 +1,18 @@
 #pragma once
-#include "Texture2D.h"
+
 #include "Transformable.h"
+#include "Component.h"
+
+#include "Texture2D.h"
 #include "Mesh.h"
+
 #include "Camera.h"
-#include "ShaderProgram.h"
-#include "VAO.h"
 #include "Light.h"
 
-class Model : public Transformable
+#include "ShaderProgram.h"
+#include "VAO.h"
+
+class Model : public Component
 {
 public:
 	Model();

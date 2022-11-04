@@ -1,7 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 #include <vector>
 #include <string>
 
@@ -14,6 +14,8 @@ public:
 	void SerializeFloat1(std::string name, GLfloat* float1);
 	void SerializeFloat2(std::string name, glm::vec2* float2);
 	void SerializeFloat3(std::string name, glm::vec3* float3);
+
+	virtual void Serialize();
 	
 	GuiSerialized<GLfloat>* GetFloat1s();
 	GuiSerialized<glm::vec2>* GetFloat2s();

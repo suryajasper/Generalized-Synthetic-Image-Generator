@@ -1,6 +1,6 @@
 #include "Transformable.h"
 
-Transformable::Transformable()
+void Transformable::InitializeComponent()
 {
 	this->position = glm::vec3(0.0f);
 	this->scale = 1.0f;
@@ -9,8 +9,11 @@ Transformable::Transformable()
 	Serialize();
 }
 
-Transformable::~Transformable()
+void Transformable::Serialize()
 {
+	SerializeFloat1("Scale", &scale);
+	SerializeFloat3("Position", &position);
+	SerializeFloat3("Rotation", &rotation);
 }
 
 void Transformable::Rotate(glm::vec3 eulerAngles)
@@ -43,11 +46,4 @@ void Transformable::SetRotation(GLfloat x, GLfloat y, GLfloat z)
 void Transformable::SetScale(GLfloat scale)
 {
 	this->scale = scale;
-}
-
-void Transformable::Serialize()
-{
-	SerializeFloat1("Scale", &scale);
-	SerializeFloat3("Position", &position);
-	SerializeFloat3("Rotation", &rotation);
 }
