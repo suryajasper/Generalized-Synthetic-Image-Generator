@@ -36,7 +36,8 @@ bool Texture2D::LoadImage(TextureMappingType mapType, const char* fileName)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	shader->SetUniform("tex0", UNIFORM_INT, 0);
+	GLuint t = 0;
+	shader->SetUniform("tex0", UNIFORM_INT, &t);
 	
 	Unbind();
 	stbi_image_free(image);

@@ -137,7 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\libraries\glad\src\glad.c" />
+    <ClCompile Include="libraries\src\glad.c" />
     <ClCompile Include="src\Behavior.cpp" />
     <ClCompile Include="libraries\include\imgui\imgui.cpp" />
     <ClCompile Include="libraries\include\imgui\imgui_demo.cpp" />
