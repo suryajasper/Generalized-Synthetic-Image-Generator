@@ -3,6 +3,13 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 
+std::map<TextureMappingType, std::string> tmtStr = {
+	{TEX_MAP_DIFFUSE  , "material.diffuse"  },
+	{TEX_MAP_NORMAL   , "material.normal"   },
+	{TEX_MAP_SPECULAR , "material.specular" },
+	{TEX_MAP_ROUGHNESS, "material.roughness"},
+};
+
 Texture2D::Texture2D(ShaderProgram* shaderProgram)
 {
 	this->shader = shaderProgram;
@@ -37,7 +44,7 @@ bool Texture2D::LoadImage(TextureMappingType mapType, const char* fileName)
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	GLuint t = 0;
-	shader->SetUniform("tex0", UNIFORM_INT, &t);
+	shader->SetUniform(tmtStr[mapType].c_str(), UNIFORM_INT, &t);
 	
 	Unbind();
 	stbi_image_free(image);

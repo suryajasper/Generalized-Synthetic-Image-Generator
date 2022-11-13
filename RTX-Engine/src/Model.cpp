@@ -23,16 +23,17 @@ Model::~Model()
 void Model::LoadMesh(const char* fileName)
 {
 	mesh = new Mesh(fileName);
-	mesh->ShadeSmooth(1.5f, 45.0f);
+	// mesh->ShadeSmooth(1.5f, 45.0f);
 	
 	CreateVAO();
 }
 
-void Model::LinkTexture(const char* fileName)
+void Model::LinkTexture(TextureMappingType texType, const char* fileName)
 {
 	shader->BindProgram();
 	tex = new Texture2D(shader);
-	tex->LoadImage(TEX_MAP_COLOR, fileName);
+	tex->LoadImage(texType, fileName);
+	textures.push_back(tex);
 }
 
 void Model::SetLight(Light* light)
@@ -68,10 +69,14 @@ void Model::DispatchMatrices(Camera* camera)
 	camera->ViewProjMatrices(view, proj);
 
 	glm::mat4x4 MPV = proj * view * model;
+	GLfloat shininess = 32.0f;
 
-	shader->SetUniform("lightPosIn", UNIFORM_VEC3, &(light->sceneObject->transform->position));
-	shader->SetUniform("lightColorIn", UNIFORM_VEC3, &(light->color));
-	shader->SetUniform("lightIntensityIn", UNIFORM_FLOAT, &(light->intensity));
+	shader->SetUniform("light.position", UNIFORM_VEC3, &(light->sceneObject->transform->position));
+	shader->SetUniform("light.color", UNIFORM_VEC3, &(light->color));
+	shader->SetUniform("light.intensity", UNIFORM_FLOAT, &(light->intensity));
+
+	shader->SetUniform("viewPos", UNIFORM_VEC3, &(camera->sceneObject->transform->position));
+	shader->SetUniform("material.shininess", UNIFORM_FLOAT, &shininess);
 
 	shader->SetUniform("proj", UNIFORM_MAT4X4, &proj);
 	shader->SetUniform("view", UNIFORM_MAT4X4, &view);

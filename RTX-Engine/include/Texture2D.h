@@ -2,14 +2,16 @@
 #include <iostream>
 #include <glad/glad.h>
 #include "ShaderProgram.h"
+#include <map>
 
 enum TextureMappingType {
-	TEX_MAP_COLOR,
+	TEX_MAP_DIFFUSE,
 	TEX_MAP_NORMAL,
 	TEX_MAP_SPECULAR,
-	TEX_MAP_DIFFUSE,
 	TEX_MAP_ROUGHNESS,
 };
+
+extern std::map<TextureMappingType, std::string> tmtStr;
 
 class Texture2D
 {

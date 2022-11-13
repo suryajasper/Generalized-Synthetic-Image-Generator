@@ -44,7 +44,7 @@ int main(void)
     SceneObject* diffuseLight = new SceneObject("Diffuse Light");
     diffuseLight->transform->SetPosition(1.0f, 1.5f, 2.0f);
     Light* lightComp = diffuseLight->AddComponent<Light>();
-    lightComp->SetIntensity(1.4f);
+    lightComp->SetIntensity(1.3f);
     lightComp->SetColor(150 / 255.0f, 108 / 255.0f, 224 / 255.0f);
 
     Scene* scene = new Scene(window);
@@ -53,8 +53,12 @@ int main(void)
 
     SceneObject* car = new SceneObject("Car");
     Model* carModel = car->AddComponent<Model>();
-    carModel->LoadMesh("resources/models/car.obj");
-    carModel->LinkTexture("resources/images/car-tex.jpg");
+    carModel->LoadMesh("resources/models/backpack/backpack-2.obj");
+    // carModel->LinkTexture(TEX_MAP_ROUGHNESS, "resources/models/backpack/roughness.jpg");
+    // carModel->LinkTexture(TEX_MAP_NORMAL   , "resources/models/backpack/normal.jpg");
+    carModel->LinkTexture(TEX_MAP_SPECULAR , "resources/models/backpack/specular.jpg");
+    carModel->LinkTexture(TEX_MAP_DIFFUSE  , "resources/models/backpack/diffuse.jpg");
+    car->transform->SetScale(1.0f);
     scene->AddSceneObject(car);
 
     float prevTime = glfwGetTime();

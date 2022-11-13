@@ -7,6 +7,8 @@
 class Material
 {
 public:
+	GLfloat shininess;
+
 	Material();
 	~Material();
 
