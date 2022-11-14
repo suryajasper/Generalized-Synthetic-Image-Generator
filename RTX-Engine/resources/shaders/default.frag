@@ -20,8 +20,6 @@ struct Light {
 	vec3 color;
 };
 
-uniform sampler2D fuck;
-
 uniform vec3 viewPos;
 uniform Material material;
 uniform Light light;

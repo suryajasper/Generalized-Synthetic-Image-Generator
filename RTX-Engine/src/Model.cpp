@@ -3,7 +3,7 @@
 Model::Model()
 {
 	this->shader = new ShaderProgram();
-	this->shader->Initialize("resources/shaders/default.vert", "resources/shaders/default.frag");
+	this->shader->Initialize("resources/shaders/pbr.vert", "resources/shaders/pbr.frag");
 
 	this->camera = nullptr;
 	this->light = nullptr;

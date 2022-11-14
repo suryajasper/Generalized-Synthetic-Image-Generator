@@ -27,9 +27,6 @@
     <ClCompile Include="src\VAO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\libraries\glad\src\glad.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -90,6 +87,9 @@
     <ClCompile Include="src\Behavior.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="libraries\src\glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -99,6 +99,8 @@
     <None Include="resources\shaders\default.frag">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+    <None Include="resources\shaders\pbr.frag" />
+    <None Include="resources\shaders\pbr.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ShaderProgram.h">
