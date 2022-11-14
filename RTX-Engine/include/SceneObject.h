@@ -6,6 +6,7 @@
 class Transformable;
 class Component;
 
+#include <iostream>
 #include <vector>
 #include <string>
 

@@ -39,7 +39,7 @@ GLuint ShaderProgram::CreateShader(int shaderType, std::string path)
 
     int status;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
-    std::cout << "--COMPILE shader: " << ((status == GL_TRUE) ? "success" : "fail") << std::endl;
+    std::cout << "--COMPILE shader [" << path << "]: " << ((status == GL_TRUE) ? "success" : "fail") << std::endl;
 
     return shader;
 }

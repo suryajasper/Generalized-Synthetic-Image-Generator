@@ -41,21 +41,37 @@ int main(void)
     Camera* camComp = camera->AddComponent<Camera>();
     camComp->SetAspectRatio((GLfloat)width / height);
 
-    SceneObject* diffuseLight = new SceneObject("Diffuse Light");
-    diffuseLight->transform->SetPosition(3.0f, 3.0f, 4.0f);
-    Light* lightComp = diffuseLight->AddComponent<Light>();
-    lightComp->SetIntensity(1.2f);
-    lightComp->SetColor(150, 108, 224);
+    GLfloat lightPositions[4][3] = {
+        {3.0f, 3.0f, 4.0f},
+        {2.0f, 2.0f, 2.0f},
+        {-4.0f, -4.0f, -2.0f},
+        {-3.0f, 3.0f, -4.0f},
+    };
+    GLfloat lightColors[4][3] = {
+        {242, 208, 114},
+        {226, 242, 121},
+        {242, 169, 121},
+        {117, 221, 240},
+    };
+    GLfloat lightIntensities[4] = { 0.8f, 0.8f, 1.3f, 0.4f };
 
     Scene* scene = new Scene(window);
     scene->SetCamera(camera);
-    scene->SetLight(diffuseLight);
 
+    for (unsigned int i = 0; i < 4; i++) {
+        SceneObject* diffuseLight = new SceneObject("Diffuse Light" + std::to_string(i));
+        diffuseLight->transform->SetPosition(lightPositions[i][0], lightPositions[i][1], lightPositions[i][2]);
+        Light* lightComp = diffuseLight->AddComponent<Light>();
+        lightComp->SetIntensity(lightIntensities[i]);
+        lightComp->SetColor(lightColors[i][0], lightColors[i][1], lightColors[i][2]);
+        scene->AddLight(diffuseLight);
+    }
+    
     SceneObject* backpack = new SceneObject("backpack");
     Model* backpackModel = backpack->AddComponent<Model>();
     backpackModel->LoadMesh("resources/models/backpack/backpack-2.obj");
     backpackModel->LinkTexture(TEX_MAP_ROUGHNESS, "resources/models/backpack/roughness.jpg");
-    backpackModel->LinkTexture(TEX_MAP_NORMAL   , "resources/models/backpack/normal.jpg");
+    backpackModel->LinkTexture(TEX_MAP_NORMAL   , "resources/models/backpack/normal.png");
     backpackModel->LinkTexture(TEX_MAP_SPECULAR , "resources/models/backpack/specular.jpg");
     backpackModel->LinkTexture(TEX_MAP_DIFFUSE  , "resources/models/backpack/diffuse.jpg");
     backpack->transform->SetScale(1.0f);
@@ -103,7 +119,7 @@ int main(void)
             total += deltaTime;
 
             backpack->transform->Rotate(glm::vec3(0, 1, 0) * deltaTime);
-            // diffuseLight->SetPosition(camera->position);
+            backpack->transform->position.y = 1.5f * glm::sin(0.8f * currTime);
 
             scene->Render();
 

@@ -21,14 +21,14 @@ public:
 	void LoadMesh(const char* fileName);
 	void LinkTexture(TextureMappingType texType, const char* fileName);
 
-	void SetLight(Light* light);
+	void LinkLights(std::vector<Light*>* lights);
 
 	void Draw(Camera* camera);
 
 	ShaderProgram* shader;
 private:
 	VAO* modelVAO;
-	Light* light;
+	std::vector<Light*> lights;
 
 	Camera* camera;
 	Mesh* mesh;

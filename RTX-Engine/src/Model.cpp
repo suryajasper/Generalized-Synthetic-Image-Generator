@@ -6,7 +6,6 @@ Model::Model()
 	this->shader->Initialize("resources/shaders/pbr.vert", "resources/shaders/pbr.frag");
 
 	this->camera = nullptr;
-	this->light = nullptr;
 	this->mesh = nullptr;
 	this->modelVAO = nullptr;
 	this->tex = nullptr;
@@ -36,9 +35,9 @@ void Model::LinkTexture(TextureMappingType texType, const char* fileName)
 	textures.push_back(tex);
 }
 
-void Model::SetLight(Light* light)
+void Model::LinkLights(std::vector<Light*>* lights)
 {
-	this->light = light;
+	this->lights = *lights;
 }
 
 void Model::Draw(Camera* camera)
@@ -71,9 +70,11 @@ void Model::DispatchMatrices(Camera* camera)
 	glm::mat4x4 MPV = proj * view * model;
 	GLfloat shininess = 32.0f;
 
-	shader->SetUniform("light.position", UNIFORM_VEC3, &(light->sceneObject->transform->position));
-	shader->SetUniform("light.color", UNIFORM_VEC3, &(light->color));
-	shader->SetUniform("light.intensity", UNIFORM_FLOAT, &(light->intensity));
+	for (unsigned int i = 0; i < lights.size(); i++) {
+		shader->SetUniform((  "lightPositions[" + std::to_string(i) + "]").c_str(),  UNIFORM_VEC3, &(lights[i]->sceneObject->transform->position));
+		shader->SetUniform((     "lightColors[" + std::to_string(i) + "]").c_str(),  UNIFORM_VEC3, &(lights[i]->color));
+		shader->SetUniform(("lightIntensities[" + std::to_string(i) + "]").c_str(), UNIFORM_FLOAT, &(lights[i]->intensity));
+	}
 
 	shader->SetUniform("viewPos", UNIFORM_VEC3, &(camera->sceneObject->transform->position));
 	shader->SetUniform("material.shininess", UNIFORM_FLOAT, &shininess);
