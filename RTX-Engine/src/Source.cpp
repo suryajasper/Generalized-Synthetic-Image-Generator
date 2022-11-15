@@ -105,7 +105,7 @@ int main(void)
             glm::vec3 upVec = { 0, 1, 0 };
 
             float rotSpeed = 1.0f;
-            float speed = 20.0f;
+            float speed = 10.0f;
 
             if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
                 transform->rotation.y += rotSpeed * deltaTime;
