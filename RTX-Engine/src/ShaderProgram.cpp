@@ -62,7 +62,8 @@ void ShaderProgram::SetUniform(const char* uniformName, UniformType type, void* 
         glUniform1fv(uniformLoc, 1, (GLfloat*)data);
         break;
     case UNIFORM_INT:
-        glUniform1iv(uniformLoc, 1, (GLint*)data);
+        std::cout << "shader program set " << uniformName << " to " << *((GLint*)data) << std::endl;
+        glUniform1i(uniformLoc, *((GLint*)data));
         break;
     }
 }

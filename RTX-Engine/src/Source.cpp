@@ -53,7 +53,7 @@ int main(void)
         {242, 169, 121},
         {117, 221, 240},
     };
-    GLfloat lightIntensities[4] = { 0.8f, 0.8f, 1.3f, 0.4f };
+    GLfloat lightIntensities[4] = { 1.1f, 0.8f, 1.3f, 1.4f };
 
     Scene* scene = new Scene(window);
     scene->SetCamera(camera);
@@ -70,15 +70,29 @@ int main(void)
     SceneObject* backpack = new SceneObject("backpack");
     Model* backpackModel = backpack->AddComponent<Model>();
     backpackModel->LoadMesh("resources/models/backpack/backpack-2.obj");
-    backpackModel->LinkTexture(TEX_MAP_ROUGHNESS, "resources/models/backpack/roughness.jpg");
+    backpackModel->LinkTexture(TEX_MAP_DIFFUSE  , "resources/models/backpack/diffuse.jpg");
     backpackModel->LinkTexture(TEX_MAP_NORMAL   , "resources/models/backpack/normal.png");
     backpackModel->LinkTexture(TEX_MAP_SPECULAR , "resources/models/backpack/specular.jpg");
-    backpackModel->LinkTexture(TEX_MAP_DIFFUSE  , "resources/models/backpack/diffuse.jpg");
+    backpackModel->LinkTexture(TEX_MAP_ROUGHNESS, "resources/models/backpack/roughness.jpg");
+    backpackModel->LinkTexture(TEX_MAP_OCCLUSION, "resources/models/backpack/ao.jpg");
+    backpack->transform->position.x = -1.5f;
     backpack->transform->SetScale(1.0f);
     scene->AddSceneObject(backpack);
 
+    SceneObject* vase = new SceneObject("vase");
+    Model* vaseModel = vase->AddComponent<Model>();
+    vaseModel->LoadMesh("resources/models/VaseModel/Vase.obj");
+    vaseModel->LinkTexture(TEX_MAP_DIFFUSE, "resources/models/VaseModel/VaseColor.png");
+    vaseModel->LinkTexture(TEX_MAP_NORMAL, "resources/models/VaseModel/Normal.png");
+    vaseModel->LinkTexture(TEX_MAP_ROUGHNESS, "resources/models/VaseModel/Roughness.jpg");
+    vaseModel->LinkTexture(TEX_MAP_OCCLUSION, "resources/models/VaseModel/AmbOcc.jpg");
+    vase->transform->position.x = 2.2f;
+    vase->transform->SetScale(15.0f);
+    scene->AddSceneObject(vase);
+
     float prevTime = glfwGetTime();
     float total = 0;
+    GLfloat moveSpeed = 0.5f;
 
     while (!glfwWindowShouldClose(window))
     {
@@ -118,8 +132,11 @@ int main(void)
 
             total += deltaTime;
 
-            backpack->transform->Rotate(glm::vec3(0, 1, 0) * deltaTime);
-            backpack->transform->position.y = 1.5f * glm::sin(0.8f * currTime);
+            backpack->transform->Rotate(glm::vec3(0, 1, 0) * deltaTime * moveSpeed);
+            backpack->transform->position.y = 1.5f * glm::sin(moveSpeed * currTime);
+            
+            vase->transform->Rotate(glm::vec3(0, 1, 0) * deltaTime * moveSpeed);
+            vase->transform->position.y = 1.5f * glm::sin(moveSpeed * currTime) - 2.0f;
 
             scene->Render();
 

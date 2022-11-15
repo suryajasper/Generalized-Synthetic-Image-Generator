@@ -30,8 +30,9 @@ void Model::LoadMesh(const char* fileName)
 void Model::LinkTexture(TextureMappingType texType, const char* fileName)
 {
 	shader->BindProgram();
-	tex = new Texture2D(shader);
-	tex->LoadImage(texType, fileName);
+
+	tex = new Texture2D(shader, texType);
+	tex->LoadImage(fileName);
 	textures.push_back(tex);
 }
 
@@ -47,7 +48,8 @@ void Model::Draw(Camera* camera)
 	DispatchMatrices(camera);
 	
 	modelVAO->Bind();
-	tex->Bind();
+	for (Texture2D* texture : textures)
+		texture->Bind();
 
 	glDrawElements(GL_TRIANGLES, mesh->numVerts, GL_UNSIGNED_INT, 0);
 }
