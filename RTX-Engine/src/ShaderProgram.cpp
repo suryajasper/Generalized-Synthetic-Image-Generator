@@ -39,7 +39,7 @@ GLuint ShaderProgram::CreateShader(int shaderType, std::string path)
 
     int status;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
-    std::cout << "--COMPILE shader: " << ((status == GL_TRUE) ? "success" : "fail") << std::endl;
+    std::cout << "--COMPILE shader [" << path << "]: " << ((status == GL_TRUE) ? "success" : "fail") << std::endl;
 
     return shader;
 }
@@ -62,7 +62,8 @@ void ShaderProgram::SetUniform(const char* uniformName, UniformType type, void* 
         glUniform1fv(uniformLoc, 1, (GLfloat*)data);
         break;
     case UNIFORM_INT:
-        glUniform1iv(uniformLoc, 1, (GLint*)data);
+        std::cout << "shader program set " << uniformName << " to " << *((GLint*)data) << std::endl;
+        glUniform1i(uniformLoc, *((GLint*)data));
         break;
     }
 }

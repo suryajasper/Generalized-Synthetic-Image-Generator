@@ -3,7 +3,6 @@
 Scene::Scene(GLFWwindow* window)
 {
 	this->window = window;
-    this->light = nullptr;
     this->camera = nullptr;
 
     this->ui = new UIManager(window);
@@ -14,8 +13,10 @@ Scene::~Scene()
     for (SceneObject* sceneObj : sceneObjects)
         delete sceneObj;
 
+    for (Light* light : lights)
+        delete light;
+
     delete ui;
-    delete light;
     delete camera;
 }
 
@@ -52,17 +53,12 @@ void Scene::SetCamera(SceneObject* camera)
     }
 }
 
-void Scene::SetLight(SceneObject* light)
+void Scene::AddLight(SceneObject* light)
 {
     Light* lightComp = light->GetComponent<Light>();
+
     if (lightComp != nullptr) {
-        this->light = lightComp;
-
-        std::vector<Model*> models; 
-        GetRenderables(models);
-        for (Model* model : models)
-            model->SetLight(lightComp);
-
+        this->lights.push_back(lightComp);
         sceneObjects.push_back(light);
     }
 }
@@ -72,14 +68,14 @@ void Scene::AddSceneObject(SceneObject* sceneObj)
     std::vector<Model*> models;
     GetRenderables(sceneObj, models);
     for (Model* model : models)
-        model->SetLight(light);
+        model->LinkLights(&lights);
 
     sceneObjects.push_back(sceneObj);
 }
 
 void Scene::Render()
 {
-    glClearColor(0.0f, 0.3f, 0.3f, 1);
+    glClearColor(0.0f, 0.0f, 0.0f, 1);
     glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
 

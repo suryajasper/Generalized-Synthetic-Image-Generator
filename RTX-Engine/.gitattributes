@@ -1,2 +1,2 @@
 # prevent opengl libraries from affecting language statistics
-libraries/* linguist-vendored
+libraries/** linguist-vendored

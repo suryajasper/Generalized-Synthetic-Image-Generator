@@ -41,24 +41,58 @@ int main(void)
     Camera* camComp = camera->AddComponent<Camera>();
     camComp->SetAspectRatio((GLfloat)width / height);
 
-    SceneObject* diffuseLight = new SceneObject("Diffuse Light");
-    diffuseLight->transform->SetPosition(1.0f, 1.5f, 2.0f);
-    Light* lightComp = diffuseLight->AddComponent<Light>();
-    lightComp->SetIntensity(1.4f);
-    lightComp->SetColor(150 / 255.0f, 108 / 255.0f, 224 / 255.0f);
+    GLfloat lightPositions[4][3] = {
+        {3.0f, 3.0f, 4.0f},
+        {2.0f, 2.0f, 2.0f},
+        {-4.0f, -4.0f, -2.0f},
+        {-3.0f, 3.0f, -4.0f},
+    };
+    GLfloat lightColors[4][3] = {
+        {242, 208, 114},
+        {226, 242, 121},
+        {242, 169, 121},
+        {117, 221, 240},
+    };
+    GLfloat lightIntensities[4] = { 1.1f, 0.8f, 1.3f, 1.4f };
 
     Scene* scene = new Scene(window);
     scene->SetCamera(camera);
-    scene->SetLight(diffuseLight);
 
-    SceneObject* car = new SceneObject("Car");
-    Model* carModel = car->AddComponent<Model>();
-    carModel->LoadMesh("resources/models/car.obj");
-    carModel->LinkTexture("resources/images/car-tex.jpg");
-    scene->AddSceneObject(car);
+    for (unsigned int i = 0; i < 4; i++) {
+        SceneObject* diffuseLight = new SceneObject("Diffuse Light" + std::to_string(i));
+        diffuseLight->transform->SetPosition(lightPositions[i][0], lightPositions[i][1], lightPositions[i][2]);
+        Light* lightComp = diffuseLight->AddComponent<Light>();
+        lightComp->SetIntensity(lightIntensities[i]);
+        lightComp->SetColor(lightColors[i][0], lightColors[i][1], lightColors[i][2]);
+        scene->AddLight(diffuseLight);
+    }
+    
+    SceneObject* backpack = new SceneObject("backpack");
+    Model* backpackModel = backpack->AddComponent<Model>();
+    backpackModel->LoadMesh("resources/models/backpack/backpack-2.obj");
+    backpackModel->LinkTexture(TEX_MAP_DIFFUSE  , "resources/models/backpack/diffuse.jpg");
+    backpackModel->LinkTexture(TEX_MAP_NORMAL   , "resources/models/backpack/normal.png");
+    backpackModel->LinkTexture(TEX_MAP_SPECULAR , "resources/models/backpack/specular.jpg");
+    backpackModel->LinkTexture(TEX_MAP_ROUGHNESS, "resources/models/backpack/roughness.jpg");
+    backpackModel->LinkTexture(TEX_MAP_OCCLUSION, "resources/models/backpack/ao.jpg");
+    backpack->transform->position.x = -1.5f;
+    backpack->transform->SetScale(1.0f);
+    scene->AddSceneObject(backpack);
+
+    SceneObject* vase = new SceneObject("vase");
+    Model* vaseModel = vase->AddComponent<Model>();
+    vaseModel->LoadMesh("resources/models/VaseModel/Vase.obj");
+    vaseModel->LinkTexture(TEX_MAP_DIFFUSE, "resources/models/VaseModel/VaseColor.png");
+    vaseModel->LinkTexture(TEX_MAP_NORMAL, "resources/models/VaseModel/Normal.png");
+    vaseModel->LinkTexture(TEX_MAP_ROUGHNESS, "resources/models/VaseModel/Roughness.jpg");
+    vaseModel->LinkTexture(TEX_MAP_OCCLUSION, "resources/models/VaseModel/AmbOcc.jpg");
+    vase->transform->position.x = 2.2f;
+    vase->transform->SetScale(15.0f);
+    scene->AddSceneObject(vase);
 
     float prevTime = glfwGetTime();
     float total = 0;
+    GLfloat moveSpeed = 0.5f;
 
     while (!glfwWindowShouldClose(window))
     {
@@ -71,7 +105,7 @@ int main(void)
             glm::vec3 upVec = { 0, 1, 0 };
 
             float rotSpeed = 1.0f;
-            float speed = 20.0f;
+            float speed = 10.0f;
 
             if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
                 transform->rotation.y += rotSpeed * deltaTime;
@@ -98,8 +132,11 @@ int main(void)
 
             total += deltaTime;
 
-            car->transform->Rotate(glm::vec3(0, 1, 0) * deltaTime);
-            // diffuseLight->SetPosition(camera->position);
+            backpack->transform->Rotate(glm::vec3(0, 1, 0) * deltaTime * moveSpeed);
+            backpack->transform->position.y = 1.5f * glm::sin(moveSpeed * currTime);
+            
+            vase->transform->Rotate(glm::vec3(0, 1, 0) * deltaTime * moveSpeed);
+            vase->transform->position.y = 1.5f * glm::sin(moveSpeed * currTime) - 2.0f;
 
             scene->Render();
 

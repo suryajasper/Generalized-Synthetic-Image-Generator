@@ -3,9 +3,19 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 
-Texture2D::Texture2D(ShaderProgram* shaderProgram)
+std::map<TextureMappingType, std::string> tmtStr = {
+	{TEX_MAP_DIFFUSE  , "material.diffuseMap"  },
+	{TEX_MAP_NORMAL   , "material.normalMap"   },
+	{TEX_MAP_METALLIC , "material.metallicMap" },
+	{TEX_MAP_SPECULAR , "material.specularMap" },
+	{TEX_MAP_ROUGHNESS, "material.roughnessMap"},
+	{TEX_MAP_OCCLUSION, "material.occlusionMap"},
+};
+
+Texture2D::Texture2D(ShaderProgram* shaderProgram, TextureMappingType mapType)
 {
 	this->shader = shaderProgram;
+	this->mapType = mapType;
 
 	glGenTextures(1, &this->texId);
 	Bind();
@@ -21,8 +31,9 @@ Texture2D::~Texture2D()
 	glDeleteTextures(1, &this->texId);
 }
 
-bool Texture2D::LoadImage(TextureMappingType mapType, const char* fileName)
+bool Texture2D::LoadImage(const char* fileName)
 {
+	std::cout << this->texId << "\n";
 	int width, height, channels;
 	stbi_set_flip_vertically_on_load(true);
 	unsigned char* image = stbi_load(fileName, &width, &height, &channels, STBI_rgb);
@@ -36,8 +47,9 @@ bool Texture2D::LoadImage(TextureMappingType mapType, const char* fileName)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	GLuint t = 0;
-	shader->SetUniform("tex0", UNIFORM_INT, &t);
+	GLuint texUnit = (GLuint)mapType;
+	std::cout << "setting " << texUnit << " to " << fileName << std::endl;
+	shader->SetUniform(tmtStr[mapType].c_str(), UNIFORM_INT, &texUnit);
 	
 	Unbind();
 	stbi_image_free(image);
@@ -48,7 +60,7 @@ bool Texture2D::LoadImage(TextureMappingType mapType, const char* fileName)
 
 void Texture2D::Bind()
 {
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE0 + (GLuint)mapType);
 	glBindTexture(GL_TEXTURE_2D, texId);
 }
 

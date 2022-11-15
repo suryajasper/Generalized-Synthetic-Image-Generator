@@ -21,10 +21,6 @@ uniform mat4 proj;
 uniform mat4 view;
 uniform mat4 model;
 
-uniform vec3 lightPosIn;
-uniform vec3 lightColorIn;
-uniform float lightIntensityIn;
-
 void main()
 {
 	gl_Position = MPV * vec4(aPos, 1.0);
@@ -35,8 +31,4 @@ void main()
 
 	texCoord = aTexCoord;
 	normal = aNorm;
-	
-	lightPos = lightPosIn;
-	lightColor = lightColorIn;
-	lightIntensity = lightIntensityIn;
 }

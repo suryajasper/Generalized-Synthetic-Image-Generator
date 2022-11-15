@@ -22,7 +22,7 @@ public:
 	void GetRenderables(std::vector<Model*>& modelsOut);
 
 	void SetCamera(SceneObject* camera);
-	void SetLight(SceneObject* light);
+	void AddLight(SceneObject* light);
 	void AddSceneObject(SceneObject* sceneObj);
 
 	void Render();
@@ -30,8 +30,8 @@ private:
 	GLFWwindow* window;
 	UIManager* ui;
 	Camera* camera;
-	Light* light;
 
+	std::vector<Light*> lights;
 	std::vector<SceneObject*> sceneObjects;
 };
 

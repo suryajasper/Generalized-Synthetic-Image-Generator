@@ -27,12 +27,13 @@ TestResult.xml
 [Rr]eleasePS/
 dlldata.c
 
+x64/*
+
 *_i.c
 *_p.c
 *_i.h
 *.ilk
 *.meta
-*.obj
 *.pch
 *.pdb
 *.pgc

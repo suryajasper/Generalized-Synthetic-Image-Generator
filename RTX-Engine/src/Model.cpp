@@ -3,10 +3,9 @@
 Model::Model()
 {
 	this->shader = new ShaderProgram();
-	this->shader->Initialize("resources/shaders/default.vert", "resources/shaders/default.frag");
+	this->shader->Initialize("resources/shaders/pbr.vert", "resources/shaders/pbr.frag");
 
 	this->camera = nullptr;
-	this->light = nullptr;
 	this->mesh = nullptr;
 	this->modelVAO = nullptr;
 	this->tex = nullptr;
@@ -23,21 +22,23 @@ Model::~Model()
 void Model::LoadMesh(const char* fileName)
 {
 	mesh = new Mesh(fileName);
-	mesh->ShadeSmooth(1.5f, 45.0f);
+	// mesh->ShadeSmooth(1.5f, 45.0f);
 	
 	CreateVAO();
 }
 
-void Model::LinkTexture(const char* fileName)
+void Model::LinkTexture(TextureMappingType texType, const char* fileName)
 {
 	shader->BindProgram();
-	tex = new Texture2D(shader);
-	tex->LoadImage(TEX_MAP_COLOR, fileName);
+
+	tex = new Texture2D(shader, texType);
+	tex->LoadImage(fileName);
+	textures.push_back(tex);
 }
 
-void Model::SetLight(Light* light)
+void Model::LinkLights(std::vector<Light*>* lights)
 {
-	this->light = light;
+	this->lights = *lights;
 }
 
 void Model::Draw(Camera* camera)
@@ -47,7 +48,8 @@ void Model::Draw(Camera* camera)
 	DispatchMatrices(camera);
 	
 	modelVAO->Bind();
-	tex->Bind();
+	for (Texture2D* texture : textures)
+		texture->Bind();
 
 	glDrawElements(GL_TRIANGLES, mesh->numVerts, GL_UNSIGNED_INT, 0);
 }
@@ -68,10 +70,16 @@ void Model::DispatchMatrices(Camera* camera)
 	camera->ViewProjMatrices(view, proj);
 
 	glm::mat4x4 MPV = proj * view * model;
+	GLfloat shininess = 32.0f;
 
-	shader->SetUniform("lightPosIn", UNIFORM_VEC3, &(light->sceneObject->transform->position));
-	shader->SetUniform("lightColorIn", UNIFORM_VEC3, &(light->color));
-	shader->SetUniform("lightIntensityIn", UNIFORM_FLOAT, &(light->intensity));
+	for (unsigned int i = 0; i < lights.size(); i++) {
+		shader->SetUniform((  "lightPositions[" + std::to_string(i) + "]").c_str(),  UNIFORM_VEC3, &(lights[i]->sceneObject->transform->position));
+		shader->SetUniform((     "lightColors[" + std::to_string(i) + "]").c_str(),  UNIFORM_VEC3, &(lights[i]->color));
+		shader->SetUniform(("lightIntensities[" + std::to_string(i) + "]").c_str(), UNIFORM_FLOAT, &(lights[i]->intensity));
+	}
+
+	shader->SetUniform("viewPos", UNIFORM_VEC3, &(camera->sceneObject->transform->position));
+	shader->SetUniform("material.shininess", UNIFORM_FLOAT, &shininess);
 
 	shader->SetUniform("proj", UNIFORM_MAT4X4, &proj);
 	shader->SetUniform("view", UNIFORM_MAT4X4, &view);

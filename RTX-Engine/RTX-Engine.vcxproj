@@ -166,6 +166,8 @@
     <None Include=".gitignore" />
     <None Include="resources\shaders\default.frag" />
     <None Include="resources\shaders\default.vert" />
+    <None Include="resources\shaders\pbr.frag" />
+    <None Include="resources\shaders\pbr.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Behavior.h" />

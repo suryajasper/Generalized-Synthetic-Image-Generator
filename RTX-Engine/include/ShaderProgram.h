@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <map>
 #include <glm/glm.hpp>
 #include "glm/gtc/type_ptr.hpp"
 #include <glad/glad.h>
@@ -38,6 +39,7 @@ public:
 
 private:
 	std::vector<GLuint> shaders;
+	unsigned int numTextures;
 	static void ReadShaderDataFromFile(std::string path, char** shaderData);
 };
 
