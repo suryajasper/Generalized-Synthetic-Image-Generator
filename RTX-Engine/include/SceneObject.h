@@ -18,6 +18,7 @@ inline bool instanceof(const T* ptr) {
 class SceneObject
 {
 public:
+	bool active;
 	std::string name;
 	std::vector<SceneObject*> children;
 	Transformable* transform;

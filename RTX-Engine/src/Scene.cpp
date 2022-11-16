@@ -87,7 +87,7 @@ void Scene::Render()
         renderQueue.pop();
 
         Model* pModel = sceneObj->GetComponent<Model>();
-        if (pModel != nullptr)
+        if (sceneObj->active && pModel != nullptr)
             pModel->Draw(camera);
 
         for (auto iter : sceneObj->children) renderQueue.push(iter);

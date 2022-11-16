@@ -5,6 +5,8 @@ unsigned int SceneObject::sceneObjectCount = 0;
 
 SceneObject::SceneObject(std::string name)
 {
+	active = true;
+
 	sceneObjectCount++;
 
 	Transformable* transform = new Transformable();

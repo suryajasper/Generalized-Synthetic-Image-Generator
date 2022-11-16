@@ -34,7 +34,7 @@ int main(void)
     if (!glfwInit())
         return -1;
 
-    GLuint width = 1200, height = 800;
+    GLuint width = 1920, height = 1080;
     GLFWwindow* window = CreateWindow("Generalized Synthetic Image Generator", width, height);
 
     SceneObject* camera = new SceneObject("Camera");
@@ -67,6 +67,7 @@ int main(void)
         scene->AddLight(diffuseLight);
     }
     
+    
     SceneObject* backpack = new SceneObject("backpack");
     Model* backpackModel = backpack->AddComponent<Model>();
     backpackModel->LoadMesh("resources/models/backpack/backpack-2.obj");
@@ -75,20 +76,37 @@ int main(void)
     backpackModel->LinkTexture(TEX_MAP_SPECULAR , "resources/models/backpack/specular.jpg");
     backpackModel->LinkTexture(TEX_MAP_ROUGHNESS, "resources/models/backpack/roughness.jpg");
     backpackModel->LinkTexture(TEX_MAP_OCCLUSION, "resources/models/backpack/ao.jpg");
-    backpack->transform->position.x = -1.5f;
+    // backpack->transform->position.x = -1.5f;
     backpack->transform->SetScale(1.0f);
-    scene->AddSceneObject(backpack);
 
     SceneObject* vase = new SceneObject("vase");
     Model* vaseModel = vase->AddComponent<Model>();
     vaseModel->LoadMesh("resources/models/VaseModel/Vase.obj");
     vaseModel->LinkTexture(TEX_MAP_DIFFUSE, "resources/models/VaseModel/VaseColor.png");
     vaseModel->LinkTexture(TEX_MAP_NORMAL, "resources/models/VaseModel/Normal.png");
-    vaseModel->LinkTexture(TEX_MAP_ROUGHNESS, "resources/models/VaseModel/Roughness.jpg");
-    vaseModel->LinkTexture(TEX_MAP_OCCLUSION, "resources/models/VaseModel/AmbOcc.jpg");
-    vase->transform->position.x = 2.2f;
+    vaseModel->LinkTexture(TEX_MAP_ROUGHNESS, "resources/models/VaseModel/Roughness.png");
+    vaseModel->LinkTexture(TEX_MAP_OCCLUSION, "resources/models/VaseModel/AmbOcc.png");
+    // vase->transform->position.x = 2.2f;
     vase->transform->SetScale(15.0f);
-    scene->AddSceneObject(vase);
+
+    SceneObject* chest = new SceneObject("treasure chest");
+    Model* chestModel = chest->AddComponent<Model>();
+    chestModel->LoadMesh("resources/models/treasure-chest/treasure_chest.obj");
+    chestModel->LinkTexture(TEX_MAP_DIFFUSE, "resources/models/treasure-chest/textures/diffuse.jpg");
+    chestModel->LinkTexture(TEX_MAP_NORMAL, "resources/models/treasure-chest/textures/normal.png");
+    chestModel->LinkTexture(TEX_MAP_METALLIC, "resources/models/treasure-chest/textures/metal.png");
+    chestModel->LinkTexture(TEX_MAP_ROUGHNESS, "resources/models/treasure-chest/textures/rough.png");
+    chest->transform->SetScale(4.0f);
+
+    std::vector<SceneObject*> renderables = {backpack, vase, chest};
+
+    for (SceneObject* renderable : renderables) {
+        scene->AddSceneObject(renderable);
+        renderable->active = false;
+    }
+
+    unsigned int active = 0;
+    bool rotating = true;
 
     float prevTime = glfwGetTime();
     float total = 0;
@@ -106,6 +124,12 @@ int main(void)
 
             float rotSpeed = 1.0f;
             float speed = 10.0f;
+
+            if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) active = 0;
+            if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) active = 1;
+            if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) active = 2;
+
+            if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) rotating = !rotating;
 
             if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
                 transform->rotation.y += rotSpeed * deltaTime;
@@ -132,11 +156,17 @@ int main(void)
 
             total += deltaTime;
 
-            backpack->transform->Rotate(glm::vec3(0, 1, 0) * deltaTime * moveSpeed);
-            backpack->transform->position.y = 1.5f * glm::sin(moveSpeed * currTime);
+            for (unsigned int i = 0; i < renderables.size(); i++)
+                renderables[i]->active = (i == active);
+
+            if (rotating)
+                renderables[active]->transform->Rotate(glm::vec3(0, 1, 0) * deltaTime * moveSpeed);
+            // backpack->transform->position.y = 1.5f * glm::sin(moveSpeed * currTime);
             
+            /*
             vase->transform->Rotate(glm::vec3(0, 1, 0) * deltaTime * moveSpeed);
             vase->transform->position.y = 1.5f * glm::sin(moveSpeed * currTime) - 2.0f;
+            */
 
             scene->Render();
 
