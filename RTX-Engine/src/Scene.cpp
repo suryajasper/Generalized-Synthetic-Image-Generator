@@ -44,6 +44,11 @@ void Scene::GetRenderables(std::vector<Model*>& modelsOut)
     GetRenderables(nullptr, modelsOut);
 }
 
+void Scene::SetSkybox(CubeMap* skybox)
+{
+    this->skybox = skybox;
+}
+
 void Scene::SetCamera(SceneObject* camera)
 {
     Camera* camComp = camera->GetComponent<Camera>();
@@ -78,6 +83,8 @@ void Scene::Render()
     glClearColor(0.0f, 0.0f, 0.0f, 1);
     glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
+
+    skybox->Draw(camera);
 
     std::queue<SceneObject*> renderQueue; 
     for (auto iter : sceneObjects) renderQueue.push(iter);

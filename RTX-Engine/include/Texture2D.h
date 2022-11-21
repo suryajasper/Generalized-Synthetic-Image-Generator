@@ -11,6 +11,8 @@ enum TextureMappingType {
 	TEX_MAP_ROUGHNESS = 3,
 	TEX_MAP_METALLIC = 4,
 	TEX_MAP_OCCLUSION = 5,
+
+	TEX_CUBEMAP = 6,
 };
 
 extern std::map<TextureMappingType, std::string> tmtStr;
@@ -26,7 +28,7 @@ public:
 	void Bind();
 	void Unbind();
 
-private:
+protected:
 	GLuint texId;
 	TextureMappingType mapType;
 

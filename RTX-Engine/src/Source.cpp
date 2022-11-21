@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include "SceneObject.h"
 #include "Scene.h"
+#include "CubeMap.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
@@ -58,6 +59,23 @@ int main(void)
     Scene* scene = new Scene(window);
     scene->SetCamera(camera);
 
+    ShaderProgram* skyboxShader = new ShaderProgram();
+    skyboxShader->Initialize("resources/shaders/skybox.vert", "resources/shaders/skybox.frag");
+
+    std::string skyboxFaces[6] = {
+        "resources/images/skyboxFaces/right.jpg",
+        "resources/images/skyboxFaces/left.jpg",
+        "resources/images/skyboxFaces/top.jpg",
+        "resources/images/skyboxFaces/bottom.jpg",
+        "resources/images/skyboxFaces/front.jpg",
+        "resources/images/skyboxFaces/back.jpg",
+    };
+
+    CubeMap* skybox = new CubeMap(skyboxShader);
+    skybox->LoadFaces(skyboxFaces);
+
+    scene->SetSkybox(skybox);
+
     for (unsigned int i = 0; i < 4; i++) {
         SceneObject* diffuseLight = new SceneObject("Diffuse Light" + std::to_string(i));
         diffuseLight->transform->SetPosition(lightPositions[i][0], lightPositions[i][1], lightPositions[i][2]);
@@ -66,7 +84,6 @@ int main(void)
         lightComp->SetColor(lightColors[i][0], lightColors[i][1], lightColors[i][2]);
         scene->AddLight(diffuseLight);
     }
-    
     
     SceneObject* backpack = new SceneObject("backpack");
     Model* backpackModel = backpack->AddComponent<Model>();
@@ -79,6 +96,7 @@ int main(void)
     // backpack->transform->position.x = -1.5f;
     backpack->transform->SetScale(1.0f);
 
+    /*
     SceneObject* vase = new SceneObject("vase");
     Model* vaseModel = vase->AddComponent<Model>();
     vaseModel->LoadMesh("resources/models/VaseModel/Vase.obj");
@@ -97,8 +115,9 @@ int main(void)
     chestModel->LinkTexture(TEX_MAP_METALLIC, "resources/models/treasure-chest/textures/metal.png");
     chestModel->LinkTexture(TEX_MAP_ROUGHNESS, "resources/models/treasure-chest/textures/rough.png");
     chest->transform->SetScale(4.0f);
+    */
 
-    std::vector<SceneObject*> renderables = {backpack, vase, chest};
+    std::vector<SceneObject*> renderables = {backpack};
 
     for (SceneObject* renderable : renderables) {
         scene->AddSceneObject(renderable);

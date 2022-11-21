@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\CubeMap.cpp" />
     <ClCompile Include="libraries\src\glad.c" />
     <ClCompile Include="src\Behavior.cpp" />
     <ClCompile Include="libraries\include\imgui\imgui.cpp" />
@@ -168,8 +169,11 @@
     <None Include="resources\shaders\default.vert" />
     <None Include="resources\shaders\pbr.frag" />
     <None Include="resources\shaders\pbr.vert" />
+    <None Include="resources\shaders\skybox.frag" />
+    <None Include="resources\shaders\skybox.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\CubeMap.h" />
     <ClInclude Include="include\Behavior.h" />
     <ClInclude Include="include\GuiSerializable.h" />
     <ClInclude Include="include\SceneObject.h" />

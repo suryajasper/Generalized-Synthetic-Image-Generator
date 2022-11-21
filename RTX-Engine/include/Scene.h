@@ -4,6 +4,7 @@
 #include "Light.h"
 #include "SceneObject.h"
 #include "UIManager.h"
+#include "CubeMap.h"
 
 #include <map>
 #include <vector>
@@ -21,6 +22,7 @@ public:
 	void GetRenderables(SceneObject* root, std::vector<Model*>& modelsOut);
 	void GetRenderables(std::vector<Model*>& modelsOut);
 
+	void SetSkybox(CubeMap* skybox);
 	void SetCamera(SceneObject* camera);
 	void AddLight(SceneObject* light);
 	void AddSceneObject(SceneObject* sceneObj);
@@ -29,6 +31,7 @@ public:
 private:
 	GLFWwindow* window;
 	UIManager* ui;
+	CubeMap* skybox;
 	Camera* camera;
 
 	std::vector<Light*> lights;
