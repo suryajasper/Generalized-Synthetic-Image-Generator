@@ -27,7 +27,7 @@ bool CubeMap::LoadFaces(std::string faces[6])
     int width, height, nrChannels;
     for (unsigned int i = 0; i < 6; i++)
     {
-        unsigned char* data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
+        unsigned char* data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, STBI_rgb);
         if (data)
         {
             std::cout << "Loaded cubemap face " << faces[i] << " successfully" << std::endl;

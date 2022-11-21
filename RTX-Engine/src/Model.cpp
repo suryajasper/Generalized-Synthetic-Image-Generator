@@ -40,6 +40,11 @@ void Model::LinkTexture(TextureMappingType texType, const char* fileName)
 	textures.push_back(tex);
 }
 
+void Model::LinkSkybox(CubeMap* skybox)
+{
+	this->skybox = skybox;
+}
+
 void Model::LinkLights(std::vector<Light*>* lights)
 {
 	this->lights = *lights;
@@ -89,6 +94,9 @@ void Model::DispatchMatrices(Camera* camera)
 	shader->SetUniform("view", UNIFORM_MAT4X4, &view);
 	shader->SetUniform("model", UNIFORM_MAT4X4, &model);
 	shader->SetUniform("MPV", UNIFORM_MAT4X4, &MPV);
+
+	GLuint skyboxTexUnit = (GLuint)TEX_CUBEMAP;
+	shader->SetUniform("skybox", UNIFORM_INT, &skyboxTexUnit);
 }
 
 void Model::CreateVAO()

@@ -43,7 +43,6 @@ void main()
 	vec3 diffuse = diffCoeff * lightHDR;
 
 	vec4 texColor = texture2D(material.diffuse, texCoord);
-	// texColor = vec4(0.4, 0.4, 0.0, 1.0);
 	vec4 lighting = vec4(diffuse + ambient + specular, 1.0);
 
 	FragColor = texColor * lighting;

@@ -4,6 +4,7 @@
 #include "Component.h"
 
 #include "Texture2D.h"
+#include "CubeMap.h"
 #include "Mesh.h"
 
 #include "Camera.h"
@@ -23,6 +24,7 @@ public:
 	void LoadMesh(const char* fileName);
 	void LinkTexture(TextureMappingType texType, const char* fileName);
 
+	void LinkSkybox(CubeMap* skybox);
 	void LinkLights(std::vector<Light*>* lights);
 
 	void Draw(Camera* camera);
@@ -31,6 +33,7 @@ public:
 private:
 	VAO* modelVAO;
 	std::vector<Light*> lights;
+	CubeMap* skybox;
 
 	Camera* camera;
 	Mesh* mesh;

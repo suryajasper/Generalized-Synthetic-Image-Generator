@@ -63,12 +63,12 @@ int main(void)
     skyboxShader->Initialize("resources/shaders/skybox.vert", "resources/shaders/skybox.frag");
 
     std::string skyboxFaces[6] = {
-        "resources/images/skyboxFaces/right.jpg",
-        "resources/images/skyboxFaces/left.jpg",
-        "resources/images/skyboxFaces/top.jpg",
-        "resources/images/skyboxFaces/bottom.jpg",
-        "resources/images/skyboxFaces/front.jpg",
-        "resources/images/skyboxFaces/back.jpg",
+        "resources/images/nature_skybox/nature_right.png",
+        "resources/images/nature_skybox/nature_left.png",
+        "resources/images/nature_skybox/nature_up.png",
+        "resources/images/nature_skybox/nature_down.png",
+        "resources/images/nature_skybox/nature_front.png",
+        "resources/images/nature_skybox/nature_back.png",
     };
 
     CubeMap* skybox = new CubeMap(skyboxShader);
@@ -96,7 +96,7 @@ int main(void)
     // backpack->transform->position.x = -1.5f;
     backpack->transform->SetScale(1.0f);
 
-    /*
+    
     SceneObject* vase = new SceneObject("vase");
     Model* vaseModel = vase->AddComponent<Model>();
     vaseModel->LoadMesh("resources/models/VaseModel/Vase.obj");
@@ -115,9 +115,8 @@ int main(void)
     chestModel->LinkTexture(TEX_MAP_METALLIC, "resources/models/treasure-chest/textures/metal.png");
     chestModel->LinkTexture(TEX_MAP_ROUGHNESS, "resources/models/treasure-chest/textures/rough.png");
     chest->transform->SetScale(4.0f);
-    */
 
-    std::vector<SceneObject*> renderables = {backpack};
+    std::vector<SceneObject*> renderables = {backpack, vase, chest};
 
     for (SceneObject* renderable : renderables) {
         scene->AddSceneObject(renderable);

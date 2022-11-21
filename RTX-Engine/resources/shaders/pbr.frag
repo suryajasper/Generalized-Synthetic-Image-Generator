@@ -21,6 +21,8 @@ uniform float lightIntensities[8];
 
 uniform Material material;
 
+uniform samplerCube skybox;
+
 uniform vec3 viewPos;
 
 const float PI = 3.14159265359;
@@ -77,9 +79,9 @@ float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness)
     return ggx1 * ggx2;
 }
 
-vec3 fresnelSchlick(float cosTheta, vec3 F0)
+vec3 fresnelSchlick(float cosTheta, vec3 F0, float roughness)
 {
-    return F0 + (1.0 - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
+    return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
 }
 
 void main()
@@ -110,11 +112,11 @@ void main()
         // cook-torrance brdf
         float NDF = DistributionGGX(N, H, roughness);        
         float G   = GeometrySmith(N, V, L, roughness);      
-        vec3 F    = fresnelSchlick(max(dot(H, V), 0.0), F0);       
+        vec3 F    = fresnelSchlick(max(dot(H, V), 0.0), F0, roughness);       
         
         vec3 kS = F;
         vec3 kD = vec3(1.0) - kS;
-        kD *= 1.0 - metallic;	  
+        kD *= 1.0 - metallic; 
         
         vec3 numerator    = NDF * G * F * specCoeff;
         float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001;
@@ -124,12 +126,14 @@ void main()
         float NdotL = max(dot(N, L), 0.0);                
         Lo += (kD * albedo / PI + specular) * radiance * NdotL;
     }
-  
-    vec3 ambient = 0.04 * albedo * occlusion;
+
+    vec3 irradiance = texture(skybox, N).rgb;
+    vec3 ambient = 0.04 * irradiance * albedo * occlusion;
     vec3 color = ambient + Lo;
 	
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2));
    
     FragColor = vec4(color, 1.0);
+    // FragColor = vec4(texture(skybox, R).rgb, 1.0);
 }  
