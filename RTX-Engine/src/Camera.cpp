@@ -7,6 +7,8 @@ void Camera::InitializeComponent()
 	transform->SetPosition(0.0f, 0.0f,  2.0f);
 	transform->SetRotation(0.0f, 0.0f, -1.0f);
 
+	name = "Camera";
+
 	Serialize();
 }
 

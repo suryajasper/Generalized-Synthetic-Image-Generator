@@ -2,12 +2,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
-#include "GuiSerializable.h"
-
 class Component;
 #include "Component.h"
 
-class Transformable : public Component, public GuiSerializable
+class Transformable : public Component
 {
 public:
 	void InitializeComponent() override;

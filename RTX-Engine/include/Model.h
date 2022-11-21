@@ -15,8 +15,10 @@
 class Model : public Component
 {
 public:
-	Model();
 	~Model();
+
+	void InitializeComponent() override;
+	void Serialize() override {};
 
 	void LoadMesh(const char* fileName);
 	void LinkTexture(TextureMappingType texType, const char* fileName);

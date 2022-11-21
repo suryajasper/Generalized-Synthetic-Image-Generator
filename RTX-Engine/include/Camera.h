@@ -10,7 +10,7 @@
 #include "Transformable.h"
 #include "Component.h"
 
-class Camera : public Component, public GuiSerializable
+class Camera : public Component
 {
 public:
 	void InitializeComponent() override;

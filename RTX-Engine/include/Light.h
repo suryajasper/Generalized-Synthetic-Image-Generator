@@ -2,9 +2,8 @@
 #include "glad/glad.h"
 #include <glm/glm.hpp>
 #include "Transformable.h"
-#include "GuiSerializable.h"
 
-class Light : public Component, public GuiSerializable
+class Light : public Component
 {
 public:
 	void InitializeComponent() override;

@@ -1,6 +1,6 @@
 #include "Model.h"
 
-Model::Model()
+void Model::InitializeComponent()
 {
 	this->shader = new ShaderProgram();
 	this->shader->Initialize("resources/shaders/pbr.vert", "resources/shaders/pbr.frag");
@@ -9,6 +9,10 @@ Model::Model()
 	this->mesh = nullptr;
 	this->modelVAO = nullptr;
 	this->tex = nullptr;
+
+	this->name = "Model";
+
+	Serialize();
 }
 
 Model::~Model()

@@ -5,7 +5,7 @@ Scene::Scene(GLFWwindow* window)
 	this->window = window;
     this->camera = nullptr;
 
-    this->ui = new UIManager(window);
+    this->ui = new UIManager(window, &sceneObjects);
 }
 
 Scene::~Scene() 
@@ -93,7 +93,7 @@ void Scene::Render()
         for (auto iter : sceneObj->children) renderQueue.push(iter);
     }
 
-    // ui->DisplaySceneObjectControls(&sceneObjects);
+    ui->DisplaySceneObjectControls();
 
     glfwSwapBuffers(window);
 }

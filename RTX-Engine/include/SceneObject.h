@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 
 class Transformable;
@@ -63,7 +63,8 @@ public:
 		}
 	};
 
+	std::vector<Component*> components;
+
 protected:
 	static unsigned int sceneObjectCount;
-	std::vector<Component*> components;
 };

@@ -5,6 +5,8 @@ void Light::InitializeComponent()
 	this->intensity = 1.0f;
 	this->color = glm::vec3(235, 225, 178) / 255.0f;
 
+	name = "Light";
+
 	Serialize();
 }
 
